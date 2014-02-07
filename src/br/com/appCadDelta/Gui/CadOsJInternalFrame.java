@@ -28,6 +28,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
     private DefaultListModel listModelAparelho;
     private List<Aparelho> listAparelho;
     private Cliente cliente;
+    private Ordemservico os;
+    private boolean newOs = false;
 
     /**
      * Creates new form CadOsJInternalFrame
@@ -513,18 +515,36 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
     private void jButtonOsSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOsSalvarActionPerformed
         // TODO add your handling code here:
-        Ordemservico os = new Ordemservico();
-        os.setObs("AT");
-        os.setPecas("AT");
-        os.setTotalOrcamento(15.00);
-        ClienteJpaController clienteJpa = new ClienteJpaController();
-        clienteJpa.create(cliente);
+        if (newOs) {
+            Ordemservico os = new Ordemservico();
+            os.setObs("AT");
+            os.setPecas("AT");
+            os.setTotalOrcamento(15.00);
+            ClienteJpaController clienteJpa = new ClienteJpaController();
+            clienteJpa.create(cliente);
 
-        os.setListaAparelho(listAparelho);
-        os.setClienteId(cliente);
-        OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
-        osJpa.create(os);
-
+            os.setListaAparelho(listAparelho);
+            os.setClienteId(cliente);
+            OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+            osJpa.create(os);
+        } else {
+            
+            cliente.setCpf(jTextCpf.getText());
+            cliente.setRg(jTextRg.getText());
+            cliente.setTelefone(jTextTelefone.getText());
+            cliente.setCelular(jTextCelular.getText());
+            cliente.setEndereco(jTextEndereco.getText());
+            
+            os.setListaAparelho(listAparelho);
+            os.setClienteId(cliente);
+            
+            ClienteJpaController clienteJpa = new ClienteJpaController();
+            clienteJpa.edit(cliente);
+            
+            OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+            osJpa.edit(os);
+            
+        }
 
     }//GEN-LAST:event_jButtonOsSalvarActionPerformed
 
@@ -532,19 +552,23 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         // TODO add your handling code here
         //OrdemServico os = DAOFactory.getOrdemServicoRepositorio().findOsJoinCliente(new Integer(jListOs.getSelectedValue().toString()));
         OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
-        Ordemservico os = osJpa.findById(new Integer(jListOs.getSelectedValue().toString()));
+        os = osJpa.findById(new Integer(jListOs.getSelectedValue().toString()));
         for (int i = 0; i < comboClienteModel.getSize(); i++) {
             String s = (String) comboClienteModel.getElementAt(i);
             String[] token = s.split("-");
             Integer it = new Integer(token[token.length - 1].replace(" ", ""));
-            if (it.equals(os.getClienteId().getId())) {
-                jComboBox1.setSelectedIndex(i);
-                break;
+
+            if (os.getClienteId() != null) {
+                if (it.equals(os.getClienteId().getId())) {
+                    jComboBox1.setSelectedIndex(i);
+                    break;
+                }
             }
         }
-                OrdemServicoJpaController osJPA = new OrdemServicoJpaController();
+        OrdemServicoJpaController osJPA = new OrdemServicoJpaController();
 
         List<Aparelho> listAparelhoTemp = osJPA.findAparelhosByIdOS(os.getId()).get(0).getListaAparelho();
+        listModelAparelho = new DefaultListModel(); 
         for (int i = 0; i < listAparelhoTemp.size(); i++) {
             if (!listModelAparelho.contains(listAparelhoTemp.get(i))) {
                 listModelAparelho.addElement(listAparelhoTemp.get(i));

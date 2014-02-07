@@ -30,6 +30,13 @@ public class OrdemServicoJpaController {
         em.close();
     }
 
+    public void edit(Ordemservico os){
+        em.getTransaction().begin();
+        em.merge(os);
+        em.getTransaction().commit();
+        em.close();
+    }
+    
     public List<Ordemservico> findAll() {
         try {
             return em.createNamedQuery("Ordemservico.findAll").getResultList();

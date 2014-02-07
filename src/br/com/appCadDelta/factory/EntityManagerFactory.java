@@ -12,14 +12,15 @@ import javax.persistence.Persistence;
  * @author Maiquel
  */
 public class EntityManagerFactory {
-    private EntityManager em= null;
-    public EntityManagerFactory(){
+
+    private EntityManager em = null;
+
+    public EntityManagerFactory() {
         javax.persistence.EntityManagerFactory emf = Persistence.createEntityManagerFactory("appDeltaCadPU");
-        this.em =  emf.createEntityManager();
+        this.em = emf.createEntityManager();
     }
 
     public EntityManager getEntityManager() {
         return em;
     }
-    
 }

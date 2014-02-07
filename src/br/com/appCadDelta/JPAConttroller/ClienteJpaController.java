@@ -29,6 +29,13 @@ public class ClienteJpaController implements Serializable {
         em.getTransaction().commit();
         em.close();
     }
+    
+    public void edit(Cliente cliente){
+        em.getTransaction().begin();
+        em.merge(cliente);
+        em.getTransaction().commit();
+        em.close();
+    }
 
     public Cliente findById(Integer id) {
         try {
@@ -47,11 +54,9 @@ public class ClienteJpaController implements Serializable {
     }
 
     public static void main(String[] args) {
-        Cliente c = new Cliente();
-        c.setNome("Francisco");
-
         ClienteJpaController cidadeJpa = new ClienteJpaController();
-        cidadeJpa.create(c);
-
+        Cliente c = cidadeJpa.findById(1);
+        c.setEndereco("centro");
+        new ClienteJpaController().edit(c);
     }
 }
