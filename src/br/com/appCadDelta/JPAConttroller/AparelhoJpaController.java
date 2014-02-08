@@ -15,7 +15,7 @@ import javax.persistence.EntityManager;
 public class AparelhoJpaController {
   
     
-    public EntityManager em = null;
+    private EntityManager em = null;
 
     public AparelhoJpaController() {
         EntityManagerFactory emf = new EntityManagerFactory();
@@ -28,6 +28,15 @@ public class AparelhoJpaController {
         em.getTransaction().commit();
         em.close();
     }
+    
+    public void edit(Aparelho aparelho){
+        em.getTransaction().begin();
+        em.merge(aparelho);
+        em.getTransaction().commit();
+        em.close();
+    
+    }
+    
     
     public Aparelho findById(Integer id) {
         try {
