@@ -140,7 +140,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.appCadDelta.entity.Usuario[ id=" + id + " ]";
+        return id.toString();
     }
     
 }

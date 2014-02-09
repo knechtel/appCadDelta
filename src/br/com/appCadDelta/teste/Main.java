@@ -17,21 +17,21 @@ import java.util.List;
  * @author Maiquel
  */
 public class Main {
-    
+
     public static void remove() {
         System.out.println("init()");
         OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
-        
+
         Ordemservico os = osJpa.findAparelhosByIdOS(16).get(0);
         List<Aparelho> listAparelho = new ArrayList<Aparelho>();
-        os.setListaAparelho(listAparelho);        
+        os.setListaAparelho(listAparelho);
         OrdemServicoJpaController osJpa1 = new OrdemServicoJpaController();
         osJpa1.edit(os);
         System.out.println("FIM");
     }
 
     public static void main(String[] args) {
-        DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");  
-System.out.println (df.format (new java.util.Date()));  
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        System.out.println(df.format(new java.util.Date()));
     }
 }

@@ -37,6 +37,21 @@ public class UsuarioJpaController {
         }
     }
 
+    public void edit(Usuario usuario) {
+        em.getTransaction().begin();
+        em.merge(usuario);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    public void delete(Usuario usuario) {
+        em.getTransaction().begin();
+        em.createQuery("DELETE FROM Usuario u WHERE u.id = :id").setParameter("id", usuario.getId()).executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+
+    }
+
     public static void main(String[] args) {
         UsuarioJpaController userJpa = new UsuarioJpaController();
         System.out.println(userJpa.findAll());
