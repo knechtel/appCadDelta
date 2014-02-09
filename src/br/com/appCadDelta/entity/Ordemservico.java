@@ -180,7 +180,11 @@ public class Ordemservico implements Serializable {
 
     @Override
     public String toString() {
-        return id.toString();
+        if (id != null) {
+            return id.toString();
+        } else {
+            return "null id";
+        }
     }
 
     /**

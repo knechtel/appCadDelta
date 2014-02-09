@@ -12,6 +12,10 @@ import br.com.appCadDelta.entity.Cliente;
 import br.com.appCadDelta.entity.Ordemservico;
 import br.com.appCadDelta.util.LimitadorMoeda;
 import java.awt.Color;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -108,7 +112,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        jTextDateEntrada = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jTextField14 = new javax.swing.JTextField();
         jButtonNovoAparelho = new javax.swing.JButton();
@@ -218,10 +222,10 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Data Entrada");
 
-        jTextField4.setEnabled(false);
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        jTextDateEntrada.setEnabled(false);
+        jTextDateEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                jTextDateEntradaActionPerformed(evt);
             }
         });
 
@@ -346,7 +350,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                                             .add(jTextTelefone, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                                             .add(jTextEndereco)
                                             .add(jTextRg)
-                                            .add(jTextField4))
+                                            .add(jTextDateEntrada))
                                         .add(18, 18, 18)
                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                                             .add(layout.createSequentialGroup()
@@ -417,7 +421,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                                 .add(jLabel5)
-                                .add(jTextField4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(jTextDateEntrada, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                                 .add(jLabel18)
                                 .add(jTextField14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
@@ -466,7 +470,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     .add(layout.createSequentialGroup()
                         .add(jLabel19)
                         .add(3, 3, 3)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -491,9 +495,9 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextTelefoneActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void jTextDateEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextDateEntradaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_jTextDateEntradaActionPerformed
 
     private void jComboBoxClienteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxClienteItemStateChanged
         // TODO add your handling code here:
@@ -564,10 +568,17 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Aparelho cadastrado com sucesso!");
                 AparelhoJpaController aparelhoJpa = new AparelhoJpaController();
                 aparelhoJpa.create(a);
-                os.getListaAparelho().add(a);
+                if (os.getListaAparelho() == null) {
+                    List<Aparelho> listAp = new ArrayList<Aparelho>();
+                    os.setListaAparelho(listAp);
+                    os.getListaAparelho().add(a);
+                    System.out.println("Adicionou ap" + listAp);
+                } else {
+                    os.getListaAparelho().add(a);
+                }
                 listModelAparelho.addElement(a.getId());
             } else {
-                JOptionPane.showMessageDialog(null, "� preciso preencher ao menos o campo marca de aparelho!");
+                JOptionPane.showMessageDialog(null, "É preciso preencher ao menos o campo marca de aparelho!");
             }
         }
     }//GEN-LAST:event_jButtonSalvarApActionPerformed
@@ -575,9 +586,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
     private void jButtonOsSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOsSalvarActionPerformed
         // TODO add your handling code here:
         if (newOs) {
-            Ordemservico os = new Ordemservico();
             os.setObs(jTextObs.getText());
-
+            os.setDataEntrada(new Date());
             if (!jTextValorOS.getText().equals("")) {
                 Double vlrOrcamento = Double.parseDouble(jTextValorOS.getText().replace(",", "."));
                 os.setTotalOrcamento(vlrOrcamento);
@@ -586,6 +596,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
             os.setClienteId(cliente);
 
             OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+
+            System.out.println("lista de aparelho" + os.getListaAparelho());
             osJpa.create(os);
             listModelOs.addElement(os);
             jListOs.setModel(listModelOs);
@@ -633,8 +645,12 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         } else {
             jTextShowVlrOS.setText("");
         }
-        jTextObs.setText(os.getObs());
 
+        jTextObs.setText(os.getObs());
+        if (os.getDataEntrada() != null) {
+            DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");  
+            jTextDateEntrada.setText(df.format(os.getDataEntrada()));
+        }
 
         for (int i = 0; i < comboClienteModel.getSize(); i++) {
             String s = (String) comboClienteModel.getElementAt(i);
@@ -688,7 +704,11 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         newAparelho = true;
         cleanFieldsAparelho();
         if (os != null) {
-            JOptionPane.showMessageDialog(null, "Insira o aparelho que sera vinculado a OS " + os.getId());
+            if (newOs) {
+                JOptionPane.showMessageDialog(null, "Insira o aparelho que sera vinculado a OS");
+            } else {
+                JOptionPane.showMessageDialog(null, "Insira o aparelho que sera vinculado a OS " + os.getId());
+            }
         }
     }//GEN-LAST:event_jButtonNovoAparelhoActionPerformed
 
@@ -706,7 +726,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jComboBoxCliente.setSelectedIndex(0);
         listModelAparelho = new DefaultListModel<Aparelho>();
         jListAparelho.setModel(listModelAparelho);
-
+        os = new Ordemservico();
         cleanFieldsAparelho();
         JOptionPane.showMessageDialog(null, "Preencha os campos para inserir uma nova ordem de serviço!");
 
@@ -763,12 +783,12 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextCelular;
     private javax.swing.JTextField jTextCpf;
+    private javax.swing.JTextField jTextDateEntrada;
     private javax.swing.JTextField jTextDescricaoAparelho;
     private javax.swing.JTextField jTextEndereco;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextMarcaAparelho;
     private javax.swing.JTextField jTextModeloAparelho;
     private javax.swing.JTextArea jTextObs;

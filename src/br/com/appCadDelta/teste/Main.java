@@ -4,10 +4,11 @@
  */
 package br.com.appCadDelta.teste;
 
-import br.com.appCadDelta.JPAConttroller.AparelhoJpaController;
 import br.com.appCadDelta.JPAConttroller.OrdemServicoJpaController;
 import br.com.appCadDelta.entity.Aparelho;
 import br.com.appCadDelta.entity.Ordemservico;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        
-        
+        DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");  
+System.out.println (df.format (new java.util.Date()));  
     }
 }
