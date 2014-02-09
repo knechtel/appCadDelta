@@ -61,6 +61,14 @@ public class OrdemServicoJpaController {
             em.close();
         }
     }
+    
+    public void removeAparelhoOS(Ordemservico os){
+        try{
+            em.createQuery("DELETE FROM aparelho_ordemservicos a WHERE a.id = :id").setParameter("id",os.getId()).executeUpdate();
+        }finally{
+            em.close();
+        }
+    }
 
     public static void main(String[] args) {
         OrdemServicoJpaController jpa = new OrdemServicoJpaController();

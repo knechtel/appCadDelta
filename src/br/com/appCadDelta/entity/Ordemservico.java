@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,8 +40,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Ordemservico.findByObs", query = "SELECT o FROM Ordemservico o WHERE o.obs = :obs"),
     @NamedQuery(name = "Ordemservico.findByPecas", query = "SELECT o FROM Ordemservico o WHERE o.pecas = :pecas"),
     @NamedQuery(name = "Ordemservico.findByTotalOrcamento", query = "SELECT o FROM Ordemservico o WHERE o.totalOrcamento = :totalOrcamento"),
- @NamedQuery(name = "Ordemservico.findAparelhosByIdOS", query = "SELECT os FROM Ordemservico os JOIN FETCH os.listaAparelho WHERE os.id=:idOs")})
+    @NamedQuery(name = "Ordemservico.findAparelhosByIdOS", query = "SELECT os FROM Ordemservico os JOIN FETCH os.listaAparelho WHERE os.id=:idOs")})
 public class Ordemservico implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,14 +71,13 @@ public class Ordemservico implements Serializable {
     @JoinColumn(name = "usuarioRecebeu_id", referencedColumnName = "id")
     @ManyToOne
     private Usuario usuarioRecebeuid;
-    @OneToMany
     @JoinTable(name = "Aparelho_ordemServicos",
     joinColumns = {
         @JoinColumn(name = "ordemServico_id", referencedColumnName = "id")},
     inverseJoinColumns = {
         @JoinColumn(name = "aparelho_id", referencedColumnName = "id")})
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Aparelho> listaAparelho;
-
 
     public Ordemservico() {
     }
@@ -195,5 +196,4 @@ public class Ordemservico implements Serializable {
     public void setListaAparelho(List<Aparelho> listaAparelho) {
         this.listaAparelho = listaAparelho;
     }
-    
 }

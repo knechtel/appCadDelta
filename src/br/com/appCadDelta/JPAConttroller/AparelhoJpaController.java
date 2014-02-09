@@ -46,6 +46,15 @@ public class AparelhoJpaController {
         }
     }
     
+    public void delete(Aparelho aparelho){
+        try{
+            em.createNamedQuery("Aparelho.delete").setParameter("id", aparelho.getId()).executeUpdate();
+        }finally{
+            em.close();
+        }
+    }
+    
+    
     public static void main(String[] args) {
         Aparelho c  = new Aparelho();
         
