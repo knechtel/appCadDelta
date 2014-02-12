@@ -118,7 +118,7 @@ public class Cidade implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.appCadDelta.entity.Cidade[ id=" + id + " ]";
+        return id.toString() ;
     }
     
 }

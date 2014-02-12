@@ -166,7 +166,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.appCadDelta.entity.Cliente[ id=" + id + " ]";
+        return  id.toString();
     }
 
     @XmlTransient
