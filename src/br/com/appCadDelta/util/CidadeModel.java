@@ -14,8 +14,6 @@ public class CidadeModel {
     
     private Cidade cidade;
     
-    
-
     public Cidade getCidade() {
         return cidade;
     }

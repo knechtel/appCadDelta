@@ -9,6 +9,7 @@ import br.com.appCadDelta.JPAConttroller.ClienteJpaController;
 import br.com.appCadDelta.entity.Cidade;
 import br.com.appCadDelta.entity.Cliente;
 import br.com.appCadDelta.util.CidadeModel;
+import br.com.appCadDelta.util.FormataCpf;
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -50,6 +51,7 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
             comboBoxCidades.addElement(cidadeModel);
         }
         initComponents();
+        jTextCpf.setDocument(new FormataCpf());
     }
 
     /**

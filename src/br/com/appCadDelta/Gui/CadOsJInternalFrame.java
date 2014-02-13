@@ -64,8 +64,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         initComponents();
         LimitadorMoeda limitador = new LimitadorMoeda();
         jTextValorOS.setDocument(limitador);
-        LimitadorMoeda.i = 0;
-        jTextValorOS.setText("0,00");
+        //LimitadorMoeda.i = 0;
+        //jTextValorOS.setText("0,00");
     }
 
     /**
@@ -120,7 +120,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jTextDateEntrada = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
+        jTextDataSaida = new javax.swing.JTextField();
         jButtonNovoAparelho = new javax.swing.JButton();
         jButtonSalvarAp = new javax.swing.JButton();
         jButtonDeleteAparelho = new javax.swing.JButton();
@@ -236,7 +236,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
         jLabel18.setText("Data Saida");
 
-        jTextField14.setEnabled(false);
+        jTextDataSaida.setEnabled(false);
 
         jButtonNovoAparelho.setText("Novo");
         jButtonNovoAparelho.addActionListener(new java.awt.event.ActionListener() {
@@ -376,7 +376,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                                             .add(layout.createSequentialGroup()
                                                 .add(jLabel18)
                                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(jTextField14)))
+                                                .add(jTextDataSaida)))
                                         .add(0, 0, Short.MAX_VALUE))))))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(0, 0, Short.MAX_VALUE)
@@ -434,7 +434,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                                 .add(jTextDateEntrada, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                                 .add(jLabel18)
-                                .add(jTextField14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                                .add(jTextDataSaida, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(layout.createSequentialGroup()
                                 .add(18, 18, 18)
@@ -480,7 +480,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     .add(layout.createSequentialGroup()
                         .add(jLabel19)
                         .add(3, 3, 3)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -530,8 +530,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
             jTextEndereco.setText(cliente.getEndereco());
             if (cliente.getCidadeId() != null) {
                 jTextCidade.setText(cliente.getCidadeId().getNome());
-            }else{
-                    jTextCidade.setText("NULL");
+            } else {
+                jTextCidade.setText("NULL");
             }
         }
     }//GEN-LAST:event_jComboBoxClienteActionPerformed
@@ -587,7 +587,6 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     List<Aparelho> listAp = new ArrayList<Aparelho>();
                     os.setListaAparelho(listAp);
                     os.getListaAparelho().add(a);
-                    System.out.println("Adicionou ap" + listAp);
                 } else {
                     os.getListaAparelho().add(a);
                 }
@@ -660,10 +659,20 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                 if (vlr[vlr.length - 1].length() == 1) {
                     valorOrcamento = valorOrcamento + "0";
                 }
+                LimitadorMoeda.i = 0;
 
                 jTextShowVlrOS.setText(valorOrcamento);
+                LimitadorMoeda.i = 0;
+                jTextValorOS.setText(valorOrcamento);
+                System.out.println("valor orçamento " + valorOrcamento);
+
             } else {
                 jTextShowVlrOS.setText("");
+                LimitadorMoeda.i = 0;
+                jTextValorOS.setText("");
+                System.out.println("passei aqui");
+                //      LimitadorMoeda.i = 0;
+                //     jTextValorOS.setText("0,00");
             }
 
             jTextObs.setText(os.getObs());
@@ -767,6 +776,15 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
+
+            if (os.getDataSaida() == null) {
+
+                os.setDataSaida(new Date());
+                OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+                osJpa.edit(os);
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                jTextDataSaida.setText(df.format(os.getDataSaida()));
+            }
             // TODO add your handling code here:
             Relatorio relatorio = new Relatorio();
             relatorio.geraRelatorio(os.getId());
@@ -814,12 +832,12 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextCelular;
     private javax.swing.JTextField jTextCidade;
     private javax.swing.JTextField jTextCpf;
+    private javax.swing.JTextField jTextDataSaida;
     private javax.swing.JTextField jTextDateEntrada;
     private javax.swing.JTextField jTextDescricaoAparelho;
     private javax.swing.JTextField jTextEndereco;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextMarcaAparelho;
     private javax.swing.JTextField jTextModeloAparelho;
     private javax.swing.JTextArea jTextObs;
