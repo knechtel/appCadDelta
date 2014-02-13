@@ -52,6 +52,14 @@ public class CidadeJpaController implements Serializable {
         em.getTransaction().commit();
         em.close();
     }
+    
+    public Cidade findById (Integer id){
+        try{
+            return (Cidade)em.createNamedQuery("Cidade.findById").setParameter("id", id).getSingleResult();
+        }finally{
+            em.close();
+        }
+    }
 
     public static void main(String[] args) {
         Cidade c = new Cidade();

@@ -11,12 +11,15 @@ package br.com.appCadDelta.util;
 import javax.swing.text.*;  
   
 public class LimitadorMoeda extends PlainDocument {     
-    
+    public static Integer i = 0;
     public static final int maxdigits = 12;     
     
-   
     public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {     
     
+        if(i==0){
+            super.insertString(offs, str, a);
+        }
+        i++;
         String texto = getText(0, getLength());     
     
         for (int i = 0; i < str.length(); i++) {     

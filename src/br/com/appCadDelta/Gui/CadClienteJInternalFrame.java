@@ -4,11 +4,11 @@
  */
 package br.com.appCadDelta.Gui;
 
-
-
+import br.com.appCadDelta.JPAConttroller.CidadeJpaController;
 import br.com.appCadDelta.JPAConttroller.ClienteJpaController;
 import br.com.appCadDelta.entity.Cidade;
 import br.com.appCadDelta.entity.Cliente;
+import br.com.appCadDelta.util.CidadeModel;
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -21,8 +21,9 @@ import javax.swing.JOptionPane;
 public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
 
     private DefaultListModel listModel;
-    private DefaultComboBoxModel<Cidade> comboBoxCidades;
-    private Cliente cliente;    
+    private DefaultComboBoxModel<CidadeModel> comboBoxCidades;
+    private Cliente cliente;
+    private Cidade cidade;
     private boolean newCliente = false;
 
     /**
@@ -34,7 +35,20 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
         for (Cliente c : clienteJpa.findAll()) {
             listModel.addElement(c);
         }
-        comboBoxCidades = new DefaultComboBoxModel<Cidade>();
+        comboBoxCidades = new DefaultComboBoxModel<CidadeModel>();
+        
+        CidadeModel cidadeModelInit = new CidadeModel();
+        Cidade cidade = new Cidade();
+        cidade.setNome("");
+        cidade.setId(0);
+        cidadeModelInit.setCidade(cidade);
+        comboBoxCidades.addElement(cidadeModelInit);
+        CidadeJpaController cidadeJpa = new CidadeJpaController();
+        for (Cidade c : cidadeJpa.findAll()) {
+            CidadeModel cidadeModel = new CidadeModel();
+            cidadeModel.setCidade(c);
+            comboBoxCidades.addElement(cidadeModel);
+        }
         initComponents();
     }
 
@@ -109,6 +123,11 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
         jLabel8.setText("Cadastro de Clientes");
 
         jButton2.setText("Novo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Delete");
 
@@ -220,7 +239,7 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel9))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addContainerGap(27, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 53, Short.MAX_VALUE))))
@@ -243,32 +262,70 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
 
         if (errorTextNome) {
             jTextNome.setBackground(Color.YELLOW);
-            JOptionPane.showMessageDialog(null, "� necess�rio informar o nome do Cliente ao sistema!");
+            JOptionPane.showMessageDialog(null, "É necessário informar o nome do Cliente ao sistema!");
         } else {
-            Cliente c = new Cliente();
-            c.setNome(jTextNome.getText());
-            c.setCpf(jTextCpf.getText());
-            c.setRg(jTextRg.getText());
-            c.setEndereco(jTextEndereco.getText());
-            c.setCelular(jTextCelular.getText());
-            c.setTelefone(jTextTelefone.getText());
-            c.setTelefoneProfissional(jTextTelefoneProfissional.getText());
-            ClienteJpaController clienteJpa = new ClienteJpaController();
-            clienteJpa.create(c);
-            jTextNome.setText("");
-            jTextCpf.setText("");
-            jTextRg.setText("");
-            jTextEndereco.setText("");
-            jTextCelular.setText("");
-            jTextTelefone.setText("");
-            jTextTelefoneProfissional.setText("");
-            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+            if (newCliente) {
+                Cliente c = new Cliente();
+                c.setNome(jTextNome.getText());
+                c.setCpf(jTextCpf.getText());
+                c.setRg(jTextRg.getText());
+                c.setEndereco(jTextEndereco.getText());
+                c.setCelular(jTextCelular.getText());
+                c.setTelefone(jTextTelefone.getText());
+                c.setTelefoneProfissional(jTextTelefoneProfissional.getText());
+                ClienteJpaController clienteJpa = new ClienteJpaController();
+                clienteJpa.create(c);
+                jTextNome.setText("");
+                jTextCpf.setText("");
+                jTextRg.setText("");
+                jTextEndereco.setText("");
+                jTextCelular.setText("");
+                jTextTelefone.setText("");
+                jTextTelefoneProfissional.setText("");
+
+
+
+                JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+
+            } else {
+                ClienteJpaController clienteJpa = new ClienteJpaController();
+                cliente.setNome(jTextNome.getText());
+                cliente.setCpf(jTextCpf.getText());
+                cliente.setRg(jTextRg.getText());
+                cliente.setEndereco(jTextEndereco.getText());
+                cliente.setCelular(jTextCelular.getText());
+                cliente.setTelefone(jTextTelefone.getText());
+                cliente.setTelefoneProfissional(jTextTelefoneProfissional.getText());
+
+                CidadeModel cidadeModel = comboBoxCidades.getElementAt(jComboBox1.getSelectedIndex());
+                
+                cliente.setCidadeId(cidadeModel.getCidade());
+
+                clienteJpa.edit(cliente);
+                JOptionPane.showMessageDialog(null, "Cliente editado com sucesso!");
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
+        newCliente = false;
+
         cliente = (Cliente) listModel.get(jList1.getSelectedIndex());
+
+        cidade = cliente.getCidadeId();
+        if (cidade == null) {
+            jComboBox1.setSelectedIndex(0);
+        } else {
+
+            for (Integer i = 0; i < comboBoxCidades.getSize(); i++) {
+                
+                if(comboBoxCidades.getElementAt(i).getCidade().getId()==cliente.getCidadeId().getId()){
+                    jComboBox1.setSelectedIndex(i);
+                }
+            }
+        }
+
         jTextNome.setText(cliente.getNome());
         jTextCpf.setText(cliente.getCpf());
         jTextRg.setText(cliente.getRg());
@@ -277,6 +334,12 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
         jTextTelefone.setText(cliente.getTelefone());
         jTextTelefoneProfissional.setText(cliente.getTelefoneProfissional());
     }//GEN-LAST:event_jList1ValueChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        newCliente = true;
+        JOptionPane.showMessageDialog(null, "Preencha todos os campos para inserir um novo cliente!");
+    }//GEN-LAST:event_jButton2ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -62,7 +62,10 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
         listModelAparelho = new DefaultListModel<Aparelho>();
         initComponents();
-        jTextValorOS.setDocument(new LimitadorMoeda());
+        LimitadorMoeda limitador = new LimitadorMoeda();
+        jTextValorOS.setDocument(limitador);
+        LimitadorMoeda.i = 0;
+        jTextValorOS.setText("0,00");
     }
 
     /**
@@ -114,7 +117,6 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jButtonOsSalvar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
         jTextDateEntrada = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
@@ -127,6 +129,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jTextShowVlrOS = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jTextCidade = new javax.swing.JTextField();
 
         setClosable(true);
 
@@ -221,8 +224,6 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jButton3.setText("Delete");
 
         jLabel16.setText("Cidade");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel5.setText("Data Entrada");
 
@@ -368,10 +369,10 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                                                     .add(jLabel3)
                                                     .add(jLabel16))
                                                 .add(24, 24, 24)
-                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                                     .add(jTextCpf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                                                     .add(jTextCelular)
-                                                    .add(jComboBox2, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                    .add(jTextCidade)))
                                             .add(layout.createSequentialGroup()
                                                 .add(jLabel18)
                                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -420,7 +421,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                                     .add(jLabel16)
-                                    .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                                    .add(jTextCidade, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -479,7 +480,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     .add(layout.createSequentialGroup()
                         .add(jLabel19)
                         .add(3, 3, 3)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -527,6 +528,11 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
             jTextCelular.setText(cliente.getCelular());
             jTextTelefone.setText(cliente.getTelefone());
             jTextEndereco.setText(cliente.getEndereco());
+            if (cliente.getCidadeId() != null) {
+                jTextCidade.setText(cliente.getCidadeId().getNome());
+            }else{
+                    jTextCidade.setText("NULL");
+            }
         }
     }//GEN-LAST:event_jComboBoxClienteActionPerformed
 
@@ -642,54 +648,60 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
 
         //os = osJpa.findById(new Integer(jListOs.getSelectedValue().toString()));
-        os = osJpa.findAparelhosByIdOS(new Integer(jListOs.getSelectedValue().toString())).get(0);
-        if (os.getTotalOrcamento() != null) {
-            String valorOrcamento = os.getTotalOrcamento().toString().replace(".", ",");
-            String[] vlr = valorOrcamento.split(",");
-            if (vlr[vlr.length - 1].length() == 1) {
-                valorOrcamento = valorOrcamento + "0";
+        System.out.println("jList " + jListOs.getSelectedValue().toString());
+
+
+        List<Ordemservico> osList = osJpa.findAparelhosByIdOS(new Integer(jListOs.getSelectedValue().toString()));
+        if (osList.size() > 0) {
+            os = osList.get(0);
+            if (os.getTotalOrcamento() != null) {
+                String valorOrcamento = os.getTotalOrcamento().toString().replace(".", ",");
+                String[] vlr = valorOrcamento.split(",");
+                if (vlr[vlr.length - 1].length() == 1) {
+                    valorOrcamento = valorOrcamento + "0";
+                }
+
+                jTextShowVlrOS.setText(valorOrcamento);
+            } else {
+                jTextShowVlrOS.setText("");
             }
 
-            jTextShowVlrOS.setText(valorOrcamento);
-        } else {
-            jTextShowVlrOS.setText("");
-        }
+            jTextObs.setText(os.getObs());
+            if (os.getDataEntrada() != null) {
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                jTextDateEntrada.setText(df.format(os.getDataEntrada()));
+            }
 
-        jTextObs.setText(os.getObs());
-        if (os.getDataEntrada() != null) {
-            DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");  
-            jTextDateEntrada.setText(df.format(os.getDataEntrada()));
-        }
+            for (int i = 0; i < comboClienteModel.getSize(); i++) {
+                String s = (String) comboClienteModel.getElementAt(i);
+                String[] token = s.split("-");
+                Integer it = new Integer(token[token.length - 1].replace(" ", ""));
 
-        for (int i = 0; i < comboClienteModel.getSize(); i++) {
-            String s = (String) comboClienteModel.getElementAt(i);
-            String[] token = s.split("-");
-            Integer it = new Integer(token[token.length - 1].replace(" ", ""));
-
-            if (os.getClienteId() != null) {
-                if (it.equals(os.getClienteId().getId())) {
-                    jComboBoxCliente.setSelectedIndex(i);
-                    break;
+                if (os.getClienteId() != null) {
+                    if (it.equals(os.getClienteId().getId())) {
+                        jComboBoxCliente.setSelectedIndex(i);
+                        break;
+                    }
                 }
             }
-        }
 
-        OrdemServicoJpaController osJPA = new OrdemServicoJpaController();
+            OrdemServicoJpaController osJPA = new OrdemServicoJpaController();
 
-        List<Aparelho> listAparelhoTemp = osJPA.findAparelhosByIdOS(os.getId()).get(0).getListaAparelho();
-        listModelAparelho = new DefaultListModel();
-        if (listAparelhoTemp.isEmpty()) {
-            listModelAparelho.removeAllElements();
-
-        }
-        for (int i = 0; i < listAparelhoTemp.size(); i++) {
-            if (!listModelAparelho.contains(listAparelhoTemp.get(i))) {
-                listModelAparelho.addElement(listAparelhoTemp.get(i));
+            List<Aparelho> listAparelhoTemp = osJPA.findAparelhosByIdOS(os.getId()).get(0).getListaAparelho();
+            listModelAparelho = new DefaultListModel();
+            if (listAparelhoTemp.isEmpty()) {
+                listModelAparelho.removeAllElements();
 
             }
+            for (int i = 0; i < listAparelhoTemp.size(); i++) {
+                if (!listModelAparelho.contains(listAparelhoTemp.get(i))) {
+                    listModelAparelho.addElement(listAparelhoTemp.get(i));
+
+                }
+            }
+            jListAparelho.setModel(listModelAparelho);
+            cleanFieldsAparelho();
         }
-        jListAparelho.setModel(listModelAparelho);
-        cleanFieldsAparelho();
     }//GEN-LAST:event_jListOsValueChanged
 
     private void jListAparelhoValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListAparelhoValueChanged
@@ -762,7 +774,6 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
             Logger.getLogger(CadOsJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -773,7 +784,6 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonSalvarOs;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBoxCliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -802,6 +812,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextCelular;
+    private javax.swing.JTextField jTextCidade;
     private javax.swing.JTextField jTextCpf;
     private javax.swing.JTextField jTextDateEntrada;
     private javax.swing.JTextField jTextDescricaoAparelho;

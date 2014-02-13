@@ -4,7 +4,7 @@
  */
 package br.com.appCadDelta.Gui;
 
-import br.com.appCadDelta.relatorio.Relatorio;
+
 import javax.swing.JDesktopPane;
 
 /**
