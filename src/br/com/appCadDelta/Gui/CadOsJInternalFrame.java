@@ -52,7 +52,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
             listModelOs.addElement(os);
         }
         comboClienteModel = new DefaultComboBoxModel<Cliente>();
-        comboClienteModel.addElement("_____________" + " - " + 0);
+        comboClienteModel.addElement("                         " + " - " + 0);
 
         ClienteJpaController jpaCliente = new ClienteJpaController();
         List<Cliente> listCliente = jpaCliente.findAll();
@@ -115,7 +115,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jLabel17 = new javax.swing.JLabel();
         jButtonSalvarOs = new javax.swing.JButton();
         jButtonOsSalvar = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButtonDelete = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jTextDateEntrada = new javax.swing.JTextField();
@@ -221,7 +221,12 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton3.setText("Delete");
+        jButtonDelete.setText("Delete");
+        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteActionPerformed(evt);
+            }
+        });
 
         jLabel16.setText("Cidade");
 
@@ -362,21 +367,17 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                                             .add(jTextRg)
                                             .add(jTextDateEntrada))
                                         .add(18, 18, 18)
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                            .add(layout.createSequentialGroup()
-                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                    .add(jLabel6)
-                                                    .add(jLabel3)
-                                                    .add(jLabel16))
-                                                .add(24, 24, 24)
-                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                    .add(jTextCpf, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                                                    .add(jTextCelular)
-                                                    .add(jTextCidade)))
-                                            .add(layout.createSequentialGroup()
-                                                .add(jLabel18)
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                                .add(jTextDataSaida)))
+                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                            .add(jLabel6)
+                                            .add(jLabel3)
+                                            .add(jLabel16)
+                                            .add(jLabel18, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextDataSaida, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextCidade, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextCelular, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextCpf, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 127, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                         .add(0, 0, Short.MAX_VALUE))))))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(0, 0, Short.MAX_VALUE)
@@ -388,7 +389,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(jButtonOsSalvar)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jButton3)
+                        .add(jButtonDelete)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(jLabel20)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -480,13 +481,13 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     .add(layout.createSequentialGroup()
                         .add(jLabel19)
                         .add(3, 3, 3)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                         .add(jButtonSalvarOs)
                         .add(jButtonOsSalvar)
-                        .add(jButton3)
+                        .add(jButtonDelete)
                         .add(jButton2))
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                         .add(jLabel20)
@@ -647,69 +648,81 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
 
         //os = osJpa.findById(new Integer(jListOs.getSelectedValue().toString()));
-        System.out.println("jList " + jListOs.getSelectedValue().toString());
 
 
-        List<Ordemservico> osList = osJpa.findAparelhosByIdOS(new Integer(jListOs.getSelectedValue().toString()));
-        if (osList.size() > 0) {
-            os = osList.get(0);
-            if (os.getTotalOrcamento() != null) {
-                String valorOrcamento = os.getTotalOrcamento().toString().replace(".", ",");
-                String[] vlr = valorOrcamento.split(",");
-                if (vlr[vlr.length - 1].length() == 1) {
-                    valorOrcamento = valorOrcamento + "0";
-                }
-                LimitadorMoeda.i = 0;
+        if (jListOs.getSelectedValue() != null) {
+            List<Ordemservico> osList = osJpa.findAparelhosByIdOS(new Integer(jListOs.getSelectedValue().toString()));
+            if (osList != null) {
+                if (osList.size() > 0) {
+                    os = osList.get(0);
+                    if (os.getTotalOrcamento() != null) {
+                        String valorOrcamento = os.getTotalOrcamento().toString().replace(".", ",");
+                        String[] vlr = valorOrcamento.split(",");
+                        if (vlr[vlr.length - 1].length() == 1) {
+                            valorOrcamento = valorOrcamento + "0";
+                        }
+                        LimitadorMoeda.i = 0;
 
-                jTextShowVlrOS.setText(valorOrcamento);
-                LimitadorMoeda.i = 0;
-                jTextValorOS.setText(valorOrcamento);
-                System.out.println("valor orçamento " + valorOrcamento);
+                        jTextShowVlrOS.setText(valorOrcamento);
+                        LimitadorMoeda.i = 0;
+                        jTextValorOS.setText(valorOrcamento);
+                        System.out.println("valor orçamento " + valorOrcamento);
 
-            } else {
-                jTextShowVlrOS.setText("");
-                LimitadorMoeda.i = 0;
-                jTextValorOS.setText("");
-                System.out.println("passei aqui");
-                //      LimitadorMoeda.i = 0;
-                //     jTextValorOS.setText("0,00");
-            }
-
-            jTextObs.setText(os.getObs());
-            if (os.getDataEntrada() != null) {
-                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                jTextDateEntrada.setText(df.format(os.getDataEntrada()));
-            }
-
-            for (int i = 0; i < comboClienteModel.getSize(); i++) {
-                String s = (String) comboClienteModel.getElementAt(i);
-                String[] token = s.split("-");
-                Integer it = new Integer(token[token.length - 1].replace(" ", ""));
-
-                if (os.getClienteId() != null) {
-                    if (it.equals(os.getClienteId().getId())) {
-                        jComboBoxCliente.setSelectedIndex(i);
-                        break;
+                    } else {
+                        jTextShowVlrOS.setText("");
+                        LimitadorMoeda.i = 0;
+                        jTextValorOS.setText("");
+                        System.out.println("passei aqui");
+                        //      LimitadorMoeda.i = 0;
+                        //     jTextValorOS.setText("0,00");
                     }
+
+                    jTextObs.setText(os.getObs());
+                    if (os.getDataEntrada() != null) {
+                        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                        jTextDateEntrada.setText(df.format(os.getDataEntrada()));
+                    }else{
+                        jTextDateEntrada.setText("NULL");
+                    }
+                    if (os.getDataSaida() != null) {
+                        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                        jTextDataSaida.setText(df.format(os.getDataSaida()));
+                    }else{
+                        jTextDataSaida.setText("NULL");
+                    }
+
+
+                    for (int i = 0; i < comboClienteModel.getSize(); i++) {
+                        String s = (String) comboClienteModel.getElementAt(i);
+                        String[] token = s.split("-");
+                        Integer it = new Integer(token[token.length - 1].replace(" ", ""));
+
+                        if (os.getClienteId() != null) {
+                            if (it.equals(os.getClienteId().getId())) {
+                                jComboBoxCliente.setSelectedIndex(i);
+                                break;
+                            }
+                        }
+                    }
+
+                    OrdemServicoJpaController osJPA = new OrdemServicoJpaController();
+
+                    List<Aparelho> listAparelhoTemp = osJPA.findAparelhosByIdOS(os.getId()).get(0).getListaAparelho();
+                    listModelAparelho = new DefaultListModel();
+                    if (listAparelhoTemp.isEmpty()) {
+                        listModelAparelho.removeAllElements();
+
+                    }
+                    for (int i = 0; i < listAparelhoTemp.size(); i++) {
+                        if (!listModelAparelho.contains(listAparelhoTemp.get(i))) {
+                            listModelAparelho.addElement(listAparelhoTemp.get(i));
+
+                        }
+                    }
+                    jListAparelho.setModel(listModelAparelho);
+                    cleanFieldsAparelho();
                 }
             }
-
-            OrdemServicoJpaController osJPA = new OrdemServicoJpaController();
-
-            List<Aparelho> listAparelhoTemp = osJPA.findAparelhosByIdOS(os.getId()).get(0).getListaAparelho();
-            listModelAparelho = new DefaultListModel();
-            if (listAparelhoTemp.isEmpty()) {
-                listModelAparelho.removeAllElements();
-
-            }
-            for (int i = 0; i < listAparelhoTemp.size(); i++) {
-                if (!listModelAparelho.contains(listAparelhoTemp.get(i))) {
-                    listModelAparelho.addElement(listAparelhoTemp.get(i));
-
-                }
-            }
-            jListAparelho.setModel(listModelAparelho);
-            cleanFieldsAparelho();
         }
     }//GEN-LAST:event_jListOsValueChanged
 
@@ -792,9 +805,19 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
             Logger.getLogger(CadOsJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
+        // TODO add your handling code here:
+        OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+        osJpa.delete(os);
+        listModelOs.removeElement(os);
+        jListOs.setModel(listModelOs);
+        JOptionPane.showMessageDialog(null, "Aparelho removido com sucesso!");
+
+    }//GEN-LAST:event_jButtonDeleteActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonDeleteAparelho;
     private javax.swing.JButton jButtonNovoAparelho;
     private javax.swing.JButton jButtonOsSalvar;

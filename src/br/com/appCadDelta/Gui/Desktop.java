@@ -5,7 +5,11 @@
 package br.com.appCadDelta.Gui;
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -18,6 +22,19 @@ public class Desktop extends javax.swing.JFrame {
      */
     public Desktop() {
         super(">_ Sistema de controle de ordem de serviço");
+//        try {
+//            UIManager.setLookAndFeel(
+//        UIManager.getCrossPlatformLookAndFeelClassName());
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Desktop.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            Logger.getLogger(Desktop.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            Logger.getLogger(Desktop.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (UnsupportedLookAndFeelException ex) {
+//            Logger.getLogger(Desktop.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
         initComponents();
         setSize(1024, 700);
     }

@@ -30,13 +30,13 @@ public class OrdemServicoJpaController {
         em.close();
     }
 
-    public void edit(Ordemservico os){
+    public void edit(Ordemservico os) {
         em.getTransaction().begin();
         em.merge(os);
         em.getTransaction().commit();
         em.close();
     }
-    
+
     public List<Ordemservico> findAll() {
         try {
             return em.createNamedQuery("Ordemservico.findAll").getResultList();
@@ -53,7 +53,6 @@ public class OrdemServicoJpaController {
         }
     }
 
-  
     public List<Ordemservico> findAparelhosByIdOS(Integer id) {
         try {
             return em.createNamedQuery("Ordemservico.findAparelhosByIdOS").setParameter("idOs", id).getResultList();
@@ -61,13 +60,22 @@ public class OrdemServicoJpaController {
             em.close();
         }
     }
-    
-    public void removeAparelhoOS(Ordemservico os){
-        try{
-            em.createQuery("DELETE FROM aparelho_ordemservicos a WHERE a.id = :id").setParameter("id",os.getId()).executeUpdate();
-        }finally{
+
+    public void removeAparelhoOS(Ordemservico os) {
+        try {
+            em.createQuery("DELETE FROM aparelho_ordemservicos a WHERE a.id = :id").setParameter("id", os.getId()).executeUpdate();
+        } finally {
             em.close();
         }
+    }
+
+    public void delete(Ordemservico os) {
+        em.getTransaction().begin();
+        os = em.merge(os);
+        em.remove(os);
+        em.getTransaction().commit();
+        em.close();
+
     }
 
     public static void main(String[] args) {
