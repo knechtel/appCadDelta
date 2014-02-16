@@ -10,8 +10,9 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
-
 import java.util.List;
+
+
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +35,7 @@ public class Relatorio {
     }
 
     public void geraRelatorio(Integer id) throws FileNotFoundException {
-        FileInputStream fis = new FileInputStream("C:\\Users\\Maiquel\\rel1.jasper");
+        FileInputStream fis = new FileInputStream("D:\\ferramentas\\relatorio\\rel1.jasper");
         BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
         OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
         List<Ordemservico> listOs = osJpa.findAparelhosByIdOS(id);
@@ -61,7 +62,7 @@ public class Relatorio {
     public void start() {
         try {
             // load report location
-            FileInputStream fis = new FileInputStream("C:\\Users\\Maiquel\\rel1.jasper");
+            FileInputStream fis = new FileInputStream("D:\\ferramentas\\relatorio\\rel1.jasper");
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
 
 
