@@ -56,7 +56,7 @@ public class ClienteJpaController implements Serializable {
     public static void main(String[] args) {
         ClienteJpaController cidadeJpa = new ClienteJpaController();
         Cliente c = cidadeJpa.findById(1);
-        c.setEndereco("centro");
-        new ClienteJpaController().edit(c);
+       
+        System.out.println("cliente cpf "+c.getCpf()); 
     }
 }

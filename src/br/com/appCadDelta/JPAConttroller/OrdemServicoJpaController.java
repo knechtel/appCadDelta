@@ -6,8 +6,11 @@ package br.com.appCadDelta.JPAConttroller;
 
 import br.com.appCadDelta.entity.Ordemservico;
 import br.com.appCadDelta.factory.EntityManagerFactory;
+import br.com.appCadDelta.util.Util;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -77,9 +80,22 @@ public class OrdemServicoJpaController {
         em.close();
 
     }
+    
+    public List<Ordemservico> findByDateEntrega(Date dataSaida){
+    
+        try {
+            return em.createNamedQuery("Ordemservico.findByDataSaida")
+                    .setParameter("dataSaida", dataSaida).getResultList();
+        } finally {
+            em.close();
+        }
+    }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         OrdemServicoJpaController jpa = new OrdemServicoJpaController();
-        System.out.println("teste" + jpa.findAparelhosByIdOS(8));
+        
+        String str = JOptionPane.showInputDialog(null,"Entre com a data:");
+        
+        System.out.println("os -> "+jpa.findByDateEntrega(Util.sringToDate(str)));
     }
 }

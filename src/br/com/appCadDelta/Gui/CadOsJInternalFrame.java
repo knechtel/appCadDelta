@@ -130,6 +130,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jLabel20 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jTextCidade = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -280,6 +281,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setText("Garantia?");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -329,6 +332,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                                     .add(jLabel12)
                                     .add(layout.createSequentialGroup()
                                         .add(0, 0, Short.MAX_VALUE)
+                                        .add(jButton1)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                         .add(jButtonDeleteAparelho)
                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                         .add(jButtonNovoAparelho, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 71, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -456,7 +461,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                                     .add(jButtonDeleteAparelho)
                                     .add(jButtonSalvarAp)
-                                    .add(jButtonNovoAparelho)))
+                                    .add(jButtonNovoAparelho)
+                                    .add(jButton1)))
                             .add(layout.createSequentialGroup()
                                 .add(5, 5, 5)
                                 .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
@@ -481,7 +487,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     .add(layout.createSequentialGroup()
                         .add(jLabel19)
                         .add(3, 3, 3)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -816,6 +822,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButtonDeleteActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonDeleteAparelho;

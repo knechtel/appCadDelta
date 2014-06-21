@@ -26,6 +26,7 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
     private Cliente cliente;
     private Cidade cidade;
     private boolean newCliente = false;
+    private FormataCpf formataCpf;
 
     /**
      * Creates new form CadClienteJInternalFrame
@@ -37,7 +38,7 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
             listModel.addElement(c);
         }
         comboBoxCidades = new DefaultComboBoxModel<CidadeModel>();
-        
+
         CidadeModel cidadeModelInit = new CidadeModel();
         Cidade cidade = new Cidade();
         cidade.setNome("");
@@ -51,7 +52,8 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
             comboBoxCidades.addElement(cidadeModel);
         }
         initComponents();
-        jTextCpf.setDocument(new FormataCpf());
+        formataCpf = new FormataCpf();
+        jTextCpf.setDocument(formataCpf);
     }
 
     /**
@@ -277,15 +279,8 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
                 c.setTelefoneProfissional(jTextTelefoneProfissional.getText());
                 ClienteJpaController clienteJpa = new ClienteJpaController();
                 clienteJpa.create(c);
-                jTextNome.setText("");
-                jTextCpf.setText("");
-                jTextRg.setText("");
-                jTextEndereco.setText("");
-                jTextCelular.setText("");
-                jTextTelefone.setText("");
-                jTextTelefoneProfissional.setText("");
-
-
+                cleanFields();
+                listModel.addElement(c);
 
                 JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
 
@@ -300,7 +295,7 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
                 cliente.setTelefoneProfissional(jTextTelefoneProfissional.getText());
 
                 CidadeModel cidadeModel = comboBoxCidades.getElementAt(jComboBox1.getSelectedIndex());
-                
+
                 cliente.setCidadeId(cidadeModel.getCidade());
 
                 clienteJpa.edit(cliente);
@@ -312,7 +307,6 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
         newCliente = false;
-
         cliente = (Cliente) listModel.get(jList1.getSelectedIndex());
 
         cidade = cliente.getCidadeId();
@@ -321,15 +315,19 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
         } else {
 
             for (Integer i = 0; i < comboBoxCidades.getSize(); i++) {
-                
-                if(comboBoxCidades.getElementAt(i).getCidade().getId()==cliente.getCidadeId().getId()){
+
+                if (comboBoxCidades.getElementAt(i).getCidade().getId() == cliente.getCidadeId().getId()) {
                     jComboBox1.setSelectedIndex(i);
                 }
             }
         }
 
         jTextNome.setText(cliente.getNome());
+        formataCpf.i = 0;
         jTextCpf.setText(cliente.getCpf());
+        formataCpf.i = 1;
+        System.out.println("cliente nome "+cliente.getNome()+ " mostra cpf  = " + cliente.getCpf());
+        
         jTextRg.setText(cliente.getRg());
         jTextEndereco.setText(cliente.getEndereco());
         jTextCelular.setText(cliente.getCelular());
@@ -337,10 +335,22 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
         jTextTelefoneProfissional.setText(cliente.getTelefoneProfissional());
     }//GEN-LAST:event_jList1ValueChanged
 
+    public void cleanFields() {
+        jTextNome.setText("");
+        jTextCpf.setText("");
+        jTextRg.setText("");
+        jTextEndereco.setText("");
+        jTextCelular.setText("");
+        jTextTelefone.setText("");
+        jTextTelefoneProfissional.setText("");
+        jComboBox1.setSelectedIndex(0);
+    }
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         newCliente = true;
         JOptionPane.showMessageDialog(null, "Preencha todos os campos para inserir um novo cliente!");
+        cleanFields();
     }//GEN-LAST:event_jButton2ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

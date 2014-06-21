@@ -69,7 +69,7 @@ public class Relatorio {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("appDeltaCadPU", new HashMap());
             EntityManager em = emf.createEntityManager();
 
-            Query q = em.createNamedQuery("Ordemservico.findAparelhosByIdOS").setParameter("idOs", 12);
+            Query q = em.createNamedQuery("Ordemservico.findAparelhosByIdOS").setParameter("idOs", 1);
 
 
             List<Ordemservico> listOs = (List<Ordemservico>) q.getResultList();

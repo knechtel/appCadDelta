@@ -13,11 +13,18 @@ import javax.swing.text.PlainDocument;
  * @author Maiquel
  */
 public class FormataCpf extends PlainDocument {
- 
-        private int tamanho = 14;
+
+    public Integer i = 1;
+    private int tamanho = 14;
 
     @Override
     public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+
+
+        if (i == 0) {
+            super.insertString(offs, str, a);
+        }
+
 
         String texto = getText(0, getLength());
         for (int i = 0; i < str.length(); i++) {
@@ -35,12 +42,11 @@ public class FormataCpf extends PlainDocument {
                 s.insert(3, ".");
             } else if (s.length() == 7) {
                 s.insert(7, ".");
-            }else if(s.length() == 11){
+            } else if (s.length() == 11) {
                 s.insert(11, "-");
             }
 
             super.insertString(0, s.toString(), a);
         }
     }
-
 }
