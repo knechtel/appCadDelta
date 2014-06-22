@@ -15,8 +15,8 @@ import javax.swing.JPasswordField;
  */
 public class Main {
 
-    public static void main(String[] args) {
-        JPanel panel = new JPanel();
+    public static void teste(){
+    JPanel panel = new JPanel();
         JLabel label = new JLabel("Entre com a senha:");
         JPasswordField pass = new JPasswordField(10);
         panel.add(label);
@@ -29,6 +29,11 @@ public class Main {
         {
             char[] password = pass.getPassword();
             System.out.println("Your password is: " + new String(password));
-        }
+        }}
+    
+    public static void main(String[] args) {
+        LoginJFrame login = new LoginJFrame();
+        login.setVisible(true);
+        login.setLocationRelativeTo(null);
     }
 }

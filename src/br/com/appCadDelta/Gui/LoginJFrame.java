@@ -4,11 +4,18 @@
  */
 package br.com.appCadDelta.Gui;
 
+import br.com.appCadDelta.JPAConttroller.UsuarioJpaController;
+import br.com.appCadDelta.entity.Usuario;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Maiquel
  */
 public class LoginJFrame extends javax.swing.JFrame {
+
+    private Usuario usuario;
 
     /**
      * Creates new form LoginJFrame
@@ -41,6 +48,11 @@ public class LoginJFrame extends javax.swing.JFrame {
         jLabel2.setText("Senha");
 
         jButton1.setText("Enviar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Sistema de controle de ordem de serviço");
@@ -85,6 +97,36 @@ public class LoginJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        UsuarioJpaController jpaController = new UsuarioJpaController();
+
+        usuario = new Usuario(); 
+        usuario.setLogin(jTextField1.getText());
+        usuario.setSenha(jPasswordField1.getText());
+        
+        List<Usuario> listUsuario = jpaController.findByLoginAndSenha(usuario);
+        
+        if(listUsuario.size()==1){
+        
+            if(listUsuario.get(0).getPerfil()==1){
+                System.out.println("this.dispose()");
+                this.dispose();
+                Desktop desktop = new Desktop();
+                desktop.setVisible(true);
+            }else{
+                //usuario operador
+                this.dispose();
+                br.com.appCadDelta.GuiUser.Desktop desktop = new br.com.appCadDelta.GuiUser.Desktop();
+                desktop.setVisible(true);
+           
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -52,8 +52,29 @@ public class UsuarioJpaController {
 
     }
 
+    public List<Usuario> findByLoginAndSenha(Usuario usuario) {
+        try {
+            return  em.createNamedQuery("Usuario.findByNomeAndSenha").setParameter("login",
+                    usuario.getLogin()).setParameter("senha", usuario.getSenha()).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
     public static void main(String[] args) {
+        Usuario usuario = new Usuario();
+        usuario.setLogin("vanessa");
+        usuario.setSenha("123");
         UsuarioJpaController userJpa = new UsuarioJpaController();
-        System.out.println(userJpa.findAll());
+        
+        List<Usuario> listUser = userJpa.findByLoginAndSenha(usuario);
+        
+        if(listUser.size()==1){
+            System.out.println("Um");
+        }else{
+            System.out.println("zero");
+        }
+        
+        System.out.println("FIM");
     }
 }
