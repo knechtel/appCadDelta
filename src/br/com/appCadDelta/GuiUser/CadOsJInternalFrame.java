@@ -13,6 +13,7 @@ import br.com.appCadDelta.entity.Cliente;
 import br.com.appCadDelta.entity.Ordemservico;
 import br.com.appCadDelta.relatorio.Relatorio;
 import br.com.appCadDelta.util.LimitadorMoeda;
+import br.com.appCadDelta.util.SessionDesktop;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.text.DateFormat;
@@ -104,9 +105,9 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
+        jTextUsuarioEntrada = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        jTextUsuarioSaida = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
         jLabel15 = new javax.swing.JLabel();
@@ -134,6 +135,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
 
         setClosable(true);
+        setIconifiable(true);
+        setTitle("Cadastro de Ordem de Serviço");
 
         jListOs.setModel(listModelOs);
         jListOs.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -195,7 +198,11 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
         jLabel13.setText("Cadastrado por");
 
+        jTextUsuarioEntrada.setEditable(false);
+
         jLabel14.setText("Finalizado");
+
+        jTextUsuarioSaida.setEditable(false);
 
         jCheckBox1.setText("Autorizado");
 
@@ -317,8 +324,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                                     .add(jLabel14))
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                    .add(jTextField11)
-                                    .add(jTextField12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                    .add(jTextUsuarioEntrada)
+                                    .add(jTextUsuarioSaida, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(jLabel17)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
@@ -475,12 +482,12 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                             .add(layout.createSequentialGroup()
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                                     .add(jLabel17)
-                                    .add(jTextField11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(jTextUsuarioEntrada, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                     .add(jLabel13))
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                                     .add(jLabel14)
-                                    .add(jTextField12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                    .add(jTextUsuarioSaida, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                                     .add(jCheckBox1)
@@ -488,7 +495,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     .add(layout.createSequentialGroup()
                         .add(jLabel19)
                         .add(3, 3, 3)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -619,6 +626,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
             OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
 
+            os.setUsuarioRecebeuid(SessionDesktop.getUsuario());
+
             System.out.println("lista de aparelho" + os.getListaAparelho());
             osJpa.create(os);
             listModelOs.addElement(os);
@@ -688,16 +697,26 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     if (os.getDataEntrada() != null) {
                         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                         jTextDateEntrada.setText(df.format(os.getDataEntrada()));
-                    }else{
+                    } else {
                         jTextDateEntrada.setText("NULL");
                     }
                     if (os.getDataSaida() != null) {
                         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                         jTextDataSaida.setText(df.format(os.getDataSaida()));
-                    }else{
+                    } else {
                         jTextDataSaida.setText("NULL");
                     }
 
+                    if (os.getUsuarioRecebeuid() != null) {
+                        jTextUsuarioEntrada.setText(os.getUsuarioRecebeuid().getNome());
+                    }else{
+                        jTextUsuarioEntrada.setText("");
+                    }
+                    if (os.getUsuarioEntregouid()!= null) {
+                        jTextUsuarioSaida.setText(os.getUsuarioEntregouid().getNome());
+                    }else{
+                        jTextUsuarioSaida.setText("");
+                    }
 
                     for (int i = 0; i < comboClienteModel.getSize(); i++) {
                         String s = (String) comboClienteModel.getElementAt(i);
@@ -800,11 +819,20 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
             if (os.getDataSaida() == null) {
 
                 os.setDataSaida(new Date());
+                os.setUsuarioEntregouid(SessionDesktop.getUsuario());
+                os.setUsuarioEntregouid(SessionDesktop.getUsuario());
+                
+                System.out.println("usuario Entregou >>>>>>>>>>>>>>>>> "+os.getUsuarioEntregouid());
                 OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+                
                 osJpa.edit(os);
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 jTextDataSaida.setText(df.format(os.getDataSaida()));
+                
+                
             }
+            
+            
             // TODO add your handling code here:
             Relatorio relatorio = new Relatorio();
             relatorio.geraRelatorio(os.getId());
@@ -867,8 +895,6 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextDateEntrada;
     private javax.swing.JTextField jTextDescricaoAparelho;
     private javax.swing.JTextField jTextEndereco;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextMarcaAparelho;
     private javax.swing.JTextField jTextModeloAparelho;
     private javax.swing.JTextArea jTextObs;
@@ -876,6 +902,8 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextSerialAparelho;
     private javax.swing.JTextField jTextShowVlrOS;
     private javax.swing.JTextField jTextTelefone;
+    private javax.swing.JTextField jTextUsuarioEntrada;
+    private javax.swing.JTextField jTextUsuarioSaida;
     private javax.swing.JTextField jTextValorOS;
     // End of variables declaration//GEN-END:variables
 }

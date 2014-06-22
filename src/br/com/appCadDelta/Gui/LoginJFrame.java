@@ -6,8 +6,12 @@ package br.com.appCadDelta.Gui;
 
 import br.com.appCadDelta.JPAConttroller.UsuarioJpaController;
 import br.com.appCadDelta.entity.Usuario;
+import br.com.appCadDelta.teste.ProgressBarDemo;
+import br.com.appCadDelta.util.SessionDesktop;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -21,6 +25,19 @@ public class LoginJFrame extends javax.swing.JFrame {
      * Creates new form LoginJFrame
      */
     public LoginJFrame() {
+        try {
+            UIManager.setLookAndFeel(
+         UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (InstantiationException ex) {
+            ex.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
+        } catch (UnsupportedLookAndFeelException ex) {
+            ex.printStackTrace();
+        }
+        
         initComponents();
     }
 
@@ -41,7 +58,10 @@ public class LoginJFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema de controle de O.S");
         setBackground(new java.awt.Color(255, 255, 255));
+        setForeground(java.awt.Color.white);
+        setResizable(false);
 
         jLabel1.setText("Login");
 
@@ -54,8 +74,9 @@ public class LoginJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel3.setText("Sistema de controle de ordem de serviço");
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 2, 24)); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/appCadDelta/GuiUser/system2.png"))); // NOI18N
+        jLabel3.setText("Sistema de controle de O.S");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -73,16 +94,16 @@ public class LoginJFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel3))
-                .addContainerGap(40, Short.MAX_VALUE))
+                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGap(16, 16, 16)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -92,7 +113,7 @@ public class LoginJFrame extends javax.swing.JFrame {
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(jButton1)
-                .addGap(46, 46, 46))
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -100,31 +121,14 @@ public class LoginJFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        UsuarioJpaController jpaController = new UsuarioJpaController();
-
+        this.dispose();
         usuario = new Usuario(); 
         usuario.setLogin(jTextField1.getText());
         usuario.setSenha(jPasswordField1.getText());
         
-        List<Usuario> listUsuario = jpaController.findByLoginAndSenha(usuario);
-        
-        if(listUsuario.size()==1){
-        
-            if(listUsuario.get(0).getPerfil()==1){
-                System.out.println("this.dispose()");
-                this.dispose();
-                Desktop desktop = new Desktop();
-                desktop.setVisible(true);
-            }else{
-                //usuario operador
-                this.dispose();
-                br.com.appCadDelta.GuiUser.Desktop desktop = new br.com.appCadDelta.GuiUser.Desktop();
-                desktop.setVisible(true);
-           
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
-        }
+        ProgressBarDemo progressBarDemo = new ProgressBarDemo();
+        SessionDesktop.setUsuario(usuario);
+        progressBarDemo.createAndShowGUI();
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
