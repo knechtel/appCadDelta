@@ -169,7 +169,7 @@ public class ProgressBarDemo extends JPanel
         add(panel, BorderLayout.PAGE_START);
         add(new JScrollPane(taskOutput), BorderLayout.CENTER);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
+        
     }
 
     /**
@@ -211,7 +211,7 @@ public class ProgressBarDemo extends JPanel
         JComponent newContentPane = new ProgressBarDemo();
         newContentPane.setOpaque(true); //content panes must be opaque
         frame.setContentPane(newContentPane);
-
+        frame.setResizable(false);
         //Display the window.
         frame.pack();
         frame.setVisible(true);

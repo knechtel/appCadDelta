@@ -566,14 +566,14 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
         if (!newAparelho) {
             if (aparelho != null) {
-                aparelho.setMarca(jTextMarcaAparelho.getText());
-                aparelho.setModelo(jTextModeloAparelho.getText());
-                aparelho.setSerial(jTextSerialAparelho.getText());
-                aparelho.setDescricao(jTextDescricaoAparelho.getText());
-                AparelhoJpaController aparelhoJpa = new AparelhoJpaController();
-                aparelhoJpa.edit(aparelho);
-                aparelhoJpa = null;
-                JOptionPane.showMessageDialog(null, "Aparelho editado com sucesso!");
+//                aparelho.setMarca(jTextMarcaAparelho.getText());
+//                aparelho.setModelo(jTextModeloAparelho.getText());
+//                aparelho.setSerial(jTextSerialAparelho.getText());
+//                aparelho.setDescricao(jTextDescricaoAparelho.getText());
+//                AparelhoJpaController aparelhoJpa = new AparelhoJpaController();
+//                aparelhoJpa.edit(aparelho);
+//                aparelhoJpa = null;
+                JOptionPane.showMessageDialog(null, "Usuário não tem permissão para editar aparelho!");
 
             }
 
@@ -633,26 +633,26 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
             listModelOs.addElement(os);
             jListOs.setModel(listModelOs);
         } else {
+//
+//            cliente.setCpf(jTextCpf.getText());
+//            cliente.setRg(jTextRg.getText());
+//            cliente.setTelefone(jTextTelefone.getText());
+//            cliente.setCelular(jTextCelular.getText());
+//            cliente.setEndereco(jTextEndereco.getText());
+//
+//            os.setClienteId(cliente);
+//
+//            ClienteJpaController clienteJpa = new ClienteJpaController();
+//            clienteJpa.edit(cliente);
+//
+//            if (!jTextValorOS.getText().equals("")) {
+//                Double vlrOrcamento = Double.parseDouble(jTextValorOS.getText().replace(",", "."));
+//                os.setTotalOrcamento(vlrOrcamento);
+//            }
 
-            cliente.setCpf(jTextCpf.getText());
-            cliente.setRg(jTextRg.getText());
-            cliente.setTelefone(jTextTelefone.getText());
-            cliente.setCelular(jTextCelular.getText());
-            cliente.setEndereco(jTextEndereco.getText());
-
-            os.setClienteId(cliente);
-
-            ClienteJpaController clienteJpa = new ClienteJpaController();
-            clienteJpa.edit(cliente);
-
-            if (!jTextValorOS.getText().equals("")) {
-                Double vlrOrcamento = Double.parseDouble(jTextValorOS.getText().replace(",", "."));
-                os.setTotalOrcamento(vlrOrcamento);
-            }
-
-            OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
-            osJpa.edit(os);
-            JOptionPane.showMessageDialog(null, "OS " + os.getId() + " editada com sucesso!");
+  ///          OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+//            osJpa.edit(os);
+            JOptionPane.showMessageDialog(null,"Usuário não tem permissão para editar O.S!");
         }
 
     }//GEN-LAST:event_jButtonOsSalvarActionPerformed

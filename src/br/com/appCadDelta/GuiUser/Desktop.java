@@ -61,6 +61,8 @@ public class Desktop extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jDesktopPane1.setBackground(new java.awt.Color(204, 204, 255));
+
         jMenu1.setText("File");
 
         jMenuItem1.setText("Ordem de Servico");
