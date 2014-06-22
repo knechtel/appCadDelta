@@ -4,7 +4,6 @@
  */
 package br.com.appCadDelta.GuiUser;
 
-import br.com.appCadDelta.Gui.*;
 import br.com.appCadDelta.JPAConttroller.AparelhoJpaController;
 import br.com.appCadDelta.JPAConttroller.ClienteJpaController;
 import br.com.appCadDelta.JPAConttroller.OrdemServicoJpaController;
@@ -31,7 +30,7 @@ import javax.swing.JOptionPane;
  *
  * @author Maiquel
  */
-public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
+public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
 
     private DefaultComboBoxModel comboClienteModel;
     private DefaultListModel<Ordemservico> listModelOs;
@@ -45,7 +44,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
     /**
      * Creates new form CadOsJInternalFrame
      */
-    public CadOsJInternalFrame() {
+    public CadOsUserJInternalFrame() {
         super("Cadastro de Ordem de Serviço");
 
         listModelOs = new DefaultListModel();
@@ -133,6 +132,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         jTextCidade = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        selectUsuariojButton = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -291,6 +291,13 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
         jButton1.setText("Garantia?");
 
+        selectUsuariojButton.setText("select");
+        selectUsuariojButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectUsuariojButtonActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -306,7 +313,9 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                                 .add(jLabel19))))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jButton2)))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, selectUsuariojButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jButton2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jSeparator1)
@@ -495,7 +504,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     .add(layout.createSequentialGroup()
                         .add(jLabel19)
                         .add(3, 3, 3)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -506,11 +515,16 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                         .add(jLabel20)
                         .add(jTextShowVlrOS, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jTextValorOS, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel15))
-                .add(33, 33, 33))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jTextValorOS, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel15)))
+                    .add(layout.createSequentialGroup()
+                        .add(17, 17, 17)
+                        .add(selectUsuariojButton)))
+                .add(19, 19, 19))
         );
 
         pack();
@@ -650,9 +664,9 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 //                os.setTotalOrcamento(vlrOrcamento);
 //            }
 
-  ///          OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+            ///          OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
 //            osJpa.edit(os);
-            JOptionPane.showMessageDialog(null,"Usuário não tem permissão para editar O.S!");
+            JOptionPane.showMessageDialog(null, "Usuário não tem permissão para editar O.S!");
         }
 
     }//GEN-LAST:event_jButtonOsSalvarActionPerformed
@@ -709,12 +723,12 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
                     if (os.getUsuarioRecebeuid() != null) {
                         jTextUsuarioEntrada.setText(os.getUsuarioRecebeuid().getNome());
-                    }else{
+                    } else {
                         jTextUsuarioEntrada.setText("");
                     }
-                    if (os.getUsuarioEntregouid()!= null) {
+                    if (os.getUsuarioEntregouid() != null) {
                         jTextUsuarioSaida.setText(os.getUsuarioEntregouid().getNome());
-                    }else{
+                    } else {
                         jTextUsuarioSaida.setText("");
                     }
 
@@ -821,23 +835,23 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                 os.setDataSaida(new Date());
                 os.setUsuarioEntregouid(SessionDesktop.getUsuario());
                 os.setUsuarioEntregouid(SessionDesktop.getUsuario());
-                
-                System.out.println("usuario Entregou >>>>>>>>>>>>>>>>> "+os.getUsuarioEntregouid());
+
+                System.out.println("usuario Entregou >>>>>>>>>>>>>>>>> " + os.getUsuarioEntregouid());
                 OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
-                
+
                 osJpa.edit(os);
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 jTextDataSaida.setText(df.format(os.getDataSaida()));
-                
-                
+
+
             }
-            
-            
+
+
             // TODO add your handling code here:
             Relatorio relatorio = new Relatorio();
             relatorio.geraRelatorio(os.getId());
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(CadOsJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CadOsUserJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -850,6 +864,13 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(null, "Aparelho removido com sucesso!");
 
     }//GEN-LAST:event_jButtonDeleteActionPerformed
+
+    private void selectUsuariojButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectUsuariojButtonActionPerformed
+        // TODO add your handling code here:
+        String codStr = JOptionPane.showInputDialog(null, "Entre com o código do cliente:");
+        
+       
+    }//GEN-LAST:event_selectUsuariojButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -905,5 +926,6 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextUsuarioEntrada;
     private javax.swing.JTextField jTextUsuarioSaida;
     private javax.swing.JTextField jTextValorOS;
+    private javax.swing.JButton selectUsuariojButton;
     // End of variables declaration//GEN-END:variables
 }

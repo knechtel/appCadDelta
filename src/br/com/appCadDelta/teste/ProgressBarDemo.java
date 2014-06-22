@@ -95,7 +95,7 @@ public class ProgressBarDemo extends JPanel
                         //usuario operador
                         setProgress(100);
                         frame.dispose();
-                        br.com.appCadDelta.GuiUser.Desktop desktop = new br.com.appCadDelta.GuiUser.Desktop();
+                        br.com.appCadDelta.GuiUser.DesktopUser desktop = new br.com.appCadDelta.GuiUser.DesktopUser();
                         desktop.setVisible(true);
                         SessionDesktop.setUsuario(listUsuario.get(0));
 

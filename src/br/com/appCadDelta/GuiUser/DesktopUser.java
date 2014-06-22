@@ -14,12 +14,12 @@ import javax.swing.JOptionPane;
  *
  * @author Maiquel
  */
-public class Desktop extends javax.swing.JFrame {
+public class DesktopUser extends javax.swing.JFrame {
 
     /**
      * Creates new form Desktop
      */
-    public Desktop() {
+    public DesktopUser() {
         super(">_ Sistema de controle de ordem de serviço");
 //        try {
 //            UIManager.setLookAndFeel(
@@ -141,7 +141,7 @@ public class Desktop extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-       br.com.appCadDelta.GuiUser.CadOsJInternalFrame cadOs = new br.com.appCadDelta.GuiUser.CadOsJInternalFrame();
+       br.com.appCadDelta.GuiUser.CadOsUserJInternalFrame cadOs = new br.com.appCadDelta.GuiUser.CadOsUserJInternalFrame();
         jDesktopPane1.add(cadOs);
         cadOs.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -202,20 +202,20 @@ public class Desktop extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Desktop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DesktopUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Desktop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DesktopUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Desktop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DesktopUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Desktop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DesktopUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Desktop().setVisible(true);
+                new DesktopUser().setVisible(true);
             }
         });
     }
