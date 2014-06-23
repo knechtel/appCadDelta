@@ -133,6 +133,7 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
         jTextCidade = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         selectUsuariojButton = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -298,6 +299,8 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton3.setText("peças");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -348,30 +351,34 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(jLabel12)
                                     .add(layout.createSequentialGroup()
-                                        .add(0, 0, Short.MAX_VALUE)
-                                        .add(jButton1)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(jButtonDeleteAparelho)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(jButtonNovoAparelho, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 71, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(jButtonSalvarAp))
-                                    .add(layout.createSequentialGroup()
                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                                             .add(jLabel8)
                                             .add(jLabel10))
                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                            .add(jTextModeloAparelho)
-                                            .add(jTextMarcaAparelho, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                        .add(18, 18, 18)
                                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(jLabel11)
-                                            .add(jLabel9))
-                                        .add(25, 25, 25)
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                            .add(jTextSerialAparelho, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                                            .add(jTextDescricaoAparelho)))))
+                                            .add(layout.createSequentialGroup()
+                                                .add(8, 8, 8)
+                                                .add(jButton3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                                .add(jButton1)
+                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                .add(jButtonDeleteAparelho)
+                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                .add(jButtonNovoAparelho, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 71, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                .add(jButtonSalvarAp))
+                                            .add(layout.createSequentialGroup()
+                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                                    .add(jTextModeloAparelho)
+                                                    .add(jTextMarcaAparelho, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                                .add(18, 18, 18)
+                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                    .add(jLabel11)
+                                                    .add(jLabel9))
+                                                .add(25, 25, 25)
+                                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                                    .add(jTextSerialAparelho, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                                                    .add(jTextDescricaoAparelho)))))))
                             .add(layout.createSequentialGroup()
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(jLabel1)
@@ -479,7 +486,8 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
                                     .add(jButtonDeleteAparelho)
                                     .add(jButtonSalvarAp)
                                     .add(jButtonNovoAparelho)
-                                    .add(jButton1)))
+                                    .add(jButton1)
+                                    .add(jButton3)))
                             .add(layout.createSequentialGroup()
                                 .add(5, 5, 5)
                                 .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
@@ -504,7 +512,7 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
                     .add(layout.createSequentialGroup()
                         .add(jLabel19)
                         .add(3, 3, 3)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -580,15 +588,20 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
 
         if (!newAparelho) {
             if (aparelho != null) {
-//                aparelho.setMarca(jTextMarcaAparelho.getText());
-//                aparelho.setModelo(jTextModeloAparelho.getText());
-//                aparelho.setSerial(jTextSerialAparelho.getText());
-//                aparelho.setDescricao(jTextDescricaoAparelho.getText());
-//                AparelhoJpaController aparelhoJpa = new AparelhoJpaController();
-//                aparelhoJpa.edit(aparelho);
-//                aparelhoJpa = null;
-                JOptionPane.showMessageDialog(null, "Usuário não tem permissão para editar aparelho!");
 
+                if (os.getDataSaida() == null) {
+                    aparelho.setMarca(jTextMarcaAparelho.getText());
+                    aparelho.setModelo(jTextModeloAparelho.getText());
+                    aparelho.setSerial(jTextSerialAparelho.getText());
+                    aparelho.setDescricao(jTextDescricaoAparelho.getText());
+                    AparelhoJpaController aparelhoJpa = new AparelhoJpaController();
+                    aparelhoJpa.edit(aparelho);
+                    aparelhoJpa = null;
+
+                } else {
+                    System.out.println("os.getDataSaida = "+os.getDataSaida());
+                    JOptionPane.showMessageDialog(null, "Usuário não tem permissão para editar aparelho!");
+                }
             }
 
         } else {
@@ -647,26 +660,32 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
             listModelOs.addElement(os);
             jListOs.setModel(listModelOs);
         } else {
-//
-//            cliente.setCpf(jTextCpf.getText());
-//            cliente.setRg(jTextRg.getText());
-//            cliente.setTelefone(jTextTelefone.getText());
-//            cliente.setCelular(jTextCelular.getText());
-//            cliente.setEndereco(jTextEndereco.getText());
-//
-//            os.setClienteId(cliente);
-//
-//            ClienteJpaController clienteJpa = new ClienteJpaController();
-//            clienteJpa.edit(cliente);
-//
-//            if (!jTextValorOS.getText().equals("")) {
-//                Double vlrOrcamento = Double.parseDouble(jTextValorOS.getText().replace(",", "."));
-//                os.setTotalOrcamento(vlrOrcamento);
-//            }
+            if (os.getDataSaida() != null) {
+                JOptionPane.showMessageDialog(null, "Usuário não tem permissão para editar O.S!");
 
-            ///          OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
-//            osJpa.edit(os);
-            JOptionPane.showMessageDialog(null, "Usuário não tem permissão para editar O.S!");
+            } else {
+
+                System.out.println("data saida = " + os.getDataSaida());
+                cliente.setCpf(jTextCpf.getText());
+                cliente.setRg(jTextRg.getText());
+                cliente.setTelefone(jTextTelefone.getText());
+                cliente.setCelular(jTextCelular.getText());
+                cliente.setEndereco(jTextEndereco.getText());
+
+                os.setClienteId(cliente);
+
+                ClienteJpaController clienteJpa = new ClienteJpaController();
+                clienteJpa.edit(cliente);
+
+                if (!jTextValorOS.getText().equals("")) {
+                    Double vlrOrcamento = Double.parseDouble(jTextValorOS.getText().replace(",", "."));
+                    os.setTotalOrcamento(vlrOrcamento);
+                }
+
+                OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+                osJpa.edit(os);
+                JOptionPane.showMessageDialog(null, "O.S "+os.getId()+" editada com sucesso!");
+            }
         }
 
     }//GEN-LAST:event_jButtonOsSalvarActionPerformed
@@ -888,7 +907,7 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
                     jComboBoxCliente.setSelectedIndex(Integer.parseInt(codStr));
                 }
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "É necessário digitar um código valido para selecionar o cliente!");
         }
 
@@ -896,6 +915,7 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonDeleteAparelho;
     private javax.swing.JButton jButtonNovoAparelho;
