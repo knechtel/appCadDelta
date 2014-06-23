@@ -131,6 +131,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         jTextCidade = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -284,6 +285,13 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
 
         jButton1.setText("Garantia?");
 
+        jButton3.setText("select");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -299,7 +307,9 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                                 .add(jLabel19))))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jButton2)))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jButton3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jButton2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jSeparator1)
@@ -488,7 +498,7 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     .add(layout.createSequentialGroup()
                         .add(jLabel19)
                         .add(3, 3, 3)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -499,11 +509,16 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                         .add(jLabel20)
                         .add(jTextShowVlrOS, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jTextValorOS, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel15))
-                .add(33, 33, 33))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jTextValorOS, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel15)))
+                    .add(layout.createSequentialGroup()
+                        .add(17, 17, 17)
+                        .add(jButton3)))
+                .add(19, 19, 19))
         );
 
         pack();
@@ -822,9 +837,41 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(null, "Aparelho removido com sucesso!");
 
     }//GEN-LAST:event_jButtonDeleteActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+        String codStr = JOptionPane.showInputDialog(null, "Entre com o código do cliente:");
+        boolean parseToNumber = true;
+
+        try {
+            Integer.parseInt(codStr);
+
+        } catch (NumberFormatException e) {
+            parseToNumber = false;
+        }
+
+        if (parseToNumber) {
+            for (int i = 0; i < comboClienteModel.getSize(); i++) {
+                String str = (String) comboClienteModel.getElementAt(i);
+                String strComp[] = str.split("-");
+                Integer intCod = Integer.parseInt(strComp[1].replace(" ", ""));
+
+                if (codStr.equals(intCod.toString())) {
+                    System.out.println("codStr " + strComp[1]);
+                    jComboBoxCliente.setSelectedIndex(Integer.parseInt(codStr));
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "É necessário digitar um código valido para selecionar o cliente!");
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonDeleteAparelho;
     private javax.swing.JButton jButtonNovoAparelho;

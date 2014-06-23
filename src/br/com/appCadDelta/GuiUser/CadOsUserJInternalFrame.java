@@ -868,8 +868,30 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
     private void selectUsuariojButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectUsuariojButtonActionPerformed
         // TODO add your handling code here:
         String codStr = JOptionPane.showInputDialog(null, "Entre com o código do cliente:");
-        
-       
+        boolean parseToNumber = true;
+
+        try {
+            Integer.parseInt(codStr);
+
+        } catch (NumberFormatException e) {
+            parseToNumber = false;
+        }
+
+        if (parseToNumber) {
+            for (int i = 0; i < comboClienteModel.getSize(); i++) {
+                String str = (String) comboClienteModel.getElementAt(i);
+                String strComp[] = str.split("-");
+                Integer intCod = Integer.parseInt(strComp[1].replace(" ", ""));
+
+                if (codStr.equals(intCod.toString())) {
+                    System.out.println("codStr " + strComp[1]);
+                    jComboBoxCliente.setSelectedIndex(Integer.parseInt(codStr));
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "É necessário digitar um código valido para selecionar o cliente!");
+        }
+
     }//GEN-LAST:event_selectUsuariojButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
