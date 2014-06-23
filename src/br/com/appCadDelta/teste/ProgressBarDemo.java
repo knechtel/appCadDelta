@@ -83,9 +83,7 @@ public class ProgressBarDemo extends JPanel
                     finalP = 1;
 
                     if (listUsuario.get(0).getPerfil() == 1) {
-                        System.out.println("this.dispose()");
                         setProgress(100);
-
                         br.com.appCadDelta.Gui.Desktop desktop = new br.com.appCadDelta.Gui.Desktop();
                         desktop.setVisible(true);
                         frame.dispose();
@@ -105,12 +103,7 @@ public class ProgressBarDemo extends JPanel
             //Initialize progress property.
             setProgress(0);
             while (progress < 100) {
-                //Sleep for up to one second.
-//                Usuario usuario = new Usuario();
-//                usuario.setLogin("vanessa");
-//                usuario.setSenha("123");
-//                java.util.List<Usuario> listUsuario = jpaController.findByLoginAndSenha(usuario);
-
+                
                 if (finalP == 0) {
                     try {
                         Thread.sleep(random.nextInt(2000));
@@ -123,9 +116,7 @@ public class ProgressBarDemo extends JPanel
 
                 }
 
-                //   
-                //Make random progress.
-
+                
                 progress += random.nextInt(10);
                 setProgress(Math.min(progress, 100));
 
