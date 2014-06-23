@@ -49,13 +49,12 @@ import java.beans.*;
 import java.util.Random;
 import java.util.List;
 
-
 public class ProgressBarDemo extends JPanel
         implements ActionListener,
         PropertyChangeListener {
 
     public List<Usuario> listUsuario;
-    public Usuario usuario= new Usuario();
+    public Usuario usuario = new Usuario();
     private static JFrame frame;
     private JProgressBar progressBar;
     private static JButton startButton;
@@ -75,30 +74,30 @@ public class ProgressBarDemo extends JPanel
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                  
+
                     UsuarioJpaController jpaController = new UsuarioJpaController();
-                    
-                    
+
+
                     listUsuario = jpaController.findByLoginAndSenha(SessionDesktop.getUsuario());
-                    
+
                     finalP = 1;
 
                     if (listUsuario.get(0).getPerfil() == 1) {
                         System.out.println("this.dispose()");
+                        setProgress(100);
 
                         br.com.appCadDelta.Gui.Desktop desktop = new br.com.appCadDelta.Gui.Desktop();
                         desktop.setVisible(true);
-                        setProgress(100);
                         frame.dispose();
-                    
+
                     } else {
                         //usuario operador
                         setProgress(100);
-                        frame.dispose();
+
                         br.com.appCadDelta.GuiUser.DesktopUser desktop = new br.com.appCadDelta.GuiUser.DesktopUser();
                         desktop.setVisible(true);
                         SessionDesktop.setUsuario(listUsuario.get(0));
-
+                        frame.dispose();
                     }
                 }
             }).start();
@@ -169,7 +168,7 @@ public class ProgressBarDemo extends JPanel
         add(panel, BorderLayout.PAGE_START);
         add(new JScrollPane(taskOutput), BorderLayout.CENTER);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
+
     }
 
     /**
