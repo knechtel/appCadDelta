@@ -4,11 +4,17 @@
  */
 package br.com.appCadDelta.GuiUser;
 
-
 import br.com.appCadDelta.Gui.*;
+import br.com.appCadDelta.JPAConttroller.OrdemServicoJpaController;
+import br.com.appCadDelta.entity.Ordemservico;
+import br.com.appCadDelta.util.ProgressMonitorDemo;
+import br.com.appCadDelta.util.SessionDesktop;
+import br.com.appCadDelta.util.Task;
+
+import java.util.Date;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
-
+import javax.swing.ProgressMonitor;
 
 /**
  *
@@ -33,7 +39,7 @@ public class DesktopUser extends javax.swing.JFrame {
 //        } catch (UnsupportedLookAndFeelException ex) {
 //            Logger.getLogger(Desktop.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        
+
         initComponents();
         setSize(1024, 700);
     }
@@ -141,7 +147,7 @@ public class DesktopUser extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-       br.com.appCadDelta.GuiUser.CadOsUserJInternalFrame cadOs = new br.com.appCadDelta.GuiUser.CadOsUserJInternalFrame();
+        br.com.appCadDelta.GuiUser.CadOsUserJInternalFrame cadOs = new br.com.appCadDelta.GuiUser.CadOsUserJInternalFrame();
         jDesktopPane1.add(cadOs);
         cadOs.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -163,29 +169,73 @@ public class DesktopUser extends javax.swing.JFrame {
         CadCidadeJInternalFrame cadCidade = new CadCidadeJInternalFrame();
         jDesktopPane1.add(cadCidade);
         cadCidade.setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        String codOs = JOptionPane.showInputDialog(null,"Digite o codigo da ordem de serviço");
+        String codOs = JOptionPane.showInputDialog(null, "Digite o codigo da ordem de serviço:");
+        boolean parseToNumber = true;
+
+        try {
+            Integer.parseInt(codOs);
+
+        } catch (NumberFormatException e) {
+            parseToNumber = false;
+        }
+
+        if (codOs == null) {
+            JOptionPane.showMessageDialog(null, "Operação cancelada!");
+        } else if (parseToNumber) {
+            OrdemServicoJpaController osJpaEdit = new OrdemServicoJpaController();
+            OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+            Ordemservico os = osJpa.findById(Integer.parseInt(codOs));
+
+            if (os != null) {
+
+                if (os.getDataSaida() == null) {
+                    os.setDataSaida(new Date());
+                    osJpaEdit.edit(os);
+
+                } else {
+                    //  ProgressMonitorDemo progress = new ProgressMonitorDemo();
+                    SessionDesktop.setIdRelatorio(os.getId());
+                    /// progress.createAndShowGUI();
+//                    Relatorio relatorio = new Relatorio();
+//                    try {
+//                        relatorio.geraRelatorio(os.getId());
+//                    } catch (FileNotFoundException ex) {
+//                        Logger.getLogger(DesktopUser.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+                    
+                    
+                    ProgressMonitorDemo pgd = new ProgressMonitorDemo();
+                    pgd.createAndShowGUI();
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "É necessário entrar com um código válido de O.S!");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "É necessário entrar com um código válido de O.S!");
+        }
+
+
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         // TODO add your handling code here:
         String str = JOptionPane.showInputDialog(null, "Digite a data da saída da ordem de serviço:");
-        
+
         CaixaJInternalFrame caixa = new CaixaJInternalFrame(str);
         jDesktopPane1.add(caixa);
         caixa.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
-    public static JDesktopPane getDesktopPane(){
+    public static JDesktopPane getDesktopPane() {
         return jDesktopPane1;
     }
-    
-    
-    
+
     /**
      * @param args the command line arguments
      */

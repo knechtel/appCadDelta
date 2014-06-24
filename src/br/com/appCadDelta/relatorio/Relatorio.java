@@ -4,8 +4,10 @@
  */
 package br.com.appCadDelta.relatorio;
 
+import br.com.appCadDelta.GuiUser.DesktopUser;
 import br.com.appCadDelta.JPAConttroller.OrdemServicoJpaController;
 import br.com.appCadDelta.entity.Ordemservico;
+
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,6 +22,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.JInternalFrame;
 import net.sf.jasperreports.engine.JRException;
 
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -27,6 +30,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class Relatorio {
@@ -56,7 +60,16 @@ public class Relatorio {
             Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
         }
         // view report to UI
-        JasperViewer.viewReport(jasperPrint, false);
+//        JasperViewer.viewReport(jasperPrint, false);
+        //mais nada
+        JRViewer jrviewer = new JRViewer(jasperPrint);
+        JInternalFrame jif = new JInternalFrame("Relatório de O.S", true, true,true);
+        jif.getContentPane().add(jrviewer);
+        jif.setSize(1000, 600);
+        DesktopUser.getDesktopPane().add(jif);
+        jif.setVisible(true);
+        
+
     }
 
     public void start() {
