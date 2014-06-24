@@ -6,7 +6,7 @@ package br.com.appCadDelta.Gui;
 
 import br.com.appCadDelta.JPAConttroller.UsuarioJpaController;
 import br.com.appCadDelta.entity.Usuario;
-import br.com.appCadDelta.teste.ProgressBarDemo;
+import br.com.appCadDelta.util.ProgressBarDemo;
 import br.com.appCadDelta.util.SessionDesktop;
 import java.util.List;
 import javax.swing.JOptionPane;

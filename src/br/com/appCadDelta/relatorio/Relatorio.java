@@ -63,12 +63,12 @@ public class Relatorio {
 //        JasperViewer.viewReport(jasperPrint, false);
         //mais nada
         JRViewer jrviewer = new JRViewer(jasperPrint);
-        JInternalFrame jif = new JInternalFrame("Relatório de O.S", true, true,true);
+        JInternalFrame jif = new JInternalFrame("Relatório de O.S", true, true, true, true);
         jif.getContentPane().add(jrviewer);
         jif.setSize(1000, 600);
         DesktopUser.getDesktopPane().add(jif);
         jif.setVisible(true);
-        
+
 
     }
 
