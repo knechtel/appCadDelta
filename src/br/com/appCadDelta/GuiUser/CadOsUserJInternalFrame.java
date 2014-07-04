@@ -13,6 +13,7 @@ import br.com.appCadDelta.entity.Ordemservico;
 import br.com.appCadDelta.relatorio.Relatorio;
 import br.com.appCadDelta.util.LimitadorMoeda;
 import br.com.appCadDelta.util.SessionDesktop;
+import br.com.appCadDelta.util.Util;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.text.DateFormat;
@@ -44,13 +45,33 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
     /**
      * Creates new form CadOsJInternalFrame
      */
-    public CadOsUserJInternalFrame() {
+    public CadOsUserJInternalFrame(String dateOrID, boolean choose) {
         super("Cadastro de Ordem de Serviço");
 
-        listModelOs = new DefaultListModel();
-        OrdemServicoJpaController jpaOs = new OrdemServicoJpaController();
-        for (Ordemservico os : jpaOs.findAll()) {
-            listModelOs.addElement(os);
+        if (dateOrID != null) {
+            listModelOs = new DefaultListModel();
+            if (choose == true) {
+                OrdemServicoJpaController jpaOs = new OrdemServicoJpaController();
+                try {
+                    for (Ordemservico os : jpaOs.findByDateEntrada(Util.sringToDate(dateOrID))) {
+                        listModelOs.addElement(os);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(CadOsUserJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                OrdemServicoJpaController jpaOs = new OrdemServicoJpaController();
+                listModelOs.addElement(jpaOs.findById(Integer.parseInt(dateOrID)));
+
+
+            }
+        } else {
+            listModelOs = new DefaultListModel();
+
+            OrdemServicoJpaController jpaOs = new OrdemServicoJpaController();
+            for (Ordemservico os : jpaOs.findAll()) {
+                listModelOs.addElement(os);
+            }
         }
         comboClienteModel = new DefaultComboBoxModel<Cliente>();
         comboClienteModel.addElement("                         " + " - " + 0);
@@ -599,7 +620,7 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
                     aparelhoJpa = null;
 
                 } else {
-                    System.out.println("os.getDataSaida = "+os.getDataSaida());
+                    System.out.println("os.getDataSaida = " + os.getDataSaida());
                     JOptionPane.showMessageDialog(null, "Usuário não tem permissão para editar aparelho!");
                 }
             }
@@ -684,7 +705,7 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
 
                 OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
                 osJpa.edit(os);
-                JOptionPane.showMessageDialog(null, "O.S "+os.getId()+" editada com sucesso!");
+                JOptionPane.showMessageDialog(null, "O.S " + os.getId() + " editada com sucesso!");
             }
         }
 

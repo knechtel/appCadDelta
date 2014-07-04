@@ -90,6 +90,16 @@ public class OrdemServicoJpaController {
             em.close();
         }
     }
+    
+    public List<Ordemservico> findByDateEntrada(Date dataSaida){
+    
+        try {
+            return em.createNamedQuery("Ordemservico.findByDataEntrada")
+                    .setParameter("dataEntrada", dataSaida).getResultList();
+        } finally {
+            em.close();
+        }
+    }
 
     public static void main(String[] args) throws Exception {
         OrdemServicoJpaController jpa = new OrdemServicoJpaController();

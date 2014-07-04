@@ -10,8 +10,12 @@ import br.com.appCadDelta.entity.Ordemservico;
 import br.com.appCadDelta.util.ProgressMonitorDemo;
 import br.com.appCadDelta.util.SessionDesktop;
 import br.com.appCadDelta.util.Task;
+import br.com.appCadDelta.util.Util;
+
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.ProgressMonitor;
@@ -60,6 +64,9 @@ public class DesktopUser extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -98,6 +105,26 @@ public class DesktopUser extends javax.swing.JFrame {
         jMenu3.add(jMenuItem7);
 
         jMenu1.add(jMenu3);
+
+        jMenu4.setText("Buscar O.S");
+
+        jMenuItem3.setText("por dia de entrada");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem3);
+
+        jMenuItem8.setText("por ID");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem8);
+
+        jMenu1.add(jMenu4);
 
         jMenuItem5.setText("Cadastro de cidades");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -147,7 +174,7 @@ public class DesktopUser extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        br.com.appCadDelta.GuiUser.CadOsUserJInternalFrame cadOs = new br.com.appCadDelta.GuiUser.CadOsUserJInternalFrame();
+        br.com.appCadDelta.GuiUser.CadOsUserJInternalFrame cadOs = new br.com.appCadDelta.GuiUser.CadOsUserJInternalFrame(null, false);
         jDesktopPane1.add(cadOs);
         cadOs.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -207,8 +234,8 @@ public class DesktopUser extends javax.swing.JFrame {
 //                    } catch (FileNotFoundException ex) {
 //                        Logger.getLogger(DesktopUser.class.getName()).log(Level.SEVERE, null, ex);
 //                    }
-                    
-                    
+
+
                     ProgressMonitorDemo pgd = new ProgressMonitorDemo();
                     pgd.createAndShowGUI();
                 }
@@ -231,6 +258,40 @@ public class DesktopUser extends javax.swing.JFrame {
         jDesktopPane1.add(caixa);
         caixa.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        String str = JOptionPane.showInputDialog(null, "Digite a data de entrada da ordem de serviço:");
+        boolean erroStringToDate = false;
+
+        try {
+            Util.sringToDate(str);
+            erroStringToDate = false;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            erroStringToDate = true;
+        }
+        if (erroStringToDate) {
+            JOptionPane.showMessageDialog(null, " Data inválida!");
+        }
+
+        if (str != null && erroStringToDate == false) {
+            CadOsUserJInternalFrame cadOs = new CadOsUserJInternalFrame(str, true);
+            jDesktopPane1.add(cadOs);
+            cadOs.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+        String str = JOptionPane.showInputDialog(null, "Digite o Id da ordem de serviço:");
+        if (str != null ) {
+            CadOsUserJInternalFrame cadOs = new CadOsUserJInternalFrame(str, false);
+            jDesktopPane1.add(cadOs);
+            cadOs.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     public static JDesktopPane getDesktopPane() {
         return jDesktopPane1;
@@ -275,12 +336,15 @@ public class DesktopUser extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     // End of variables declaration//GEN-END:variables
 }
