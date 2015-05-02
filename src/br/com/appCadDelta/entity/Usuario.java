@@ -9,9 +9,12 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -55,6 +58,16 @@ public class Usuario implements Serializable {
     @OneToMany(mappedBy = "usuarioRecebeuid")
     private List<Ordemservico> ordemservicoList1;
 
+    
+    @JoinTable(name = "Aparelho_usuario",
+    joinColumns = {
+        @JoinColumn(name = "usaurio_id", referencedColumnName = "id")},
+    inverseJoinColumns = {
+        @JoinColumn(name = "aparelho_id", referencedColumnName = "id")})
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Aparelho> usaurioList;
+
+    
     public Usuario() {
     }
 

@@ -10,9 +10,12 @@ import br.com.appCadDelta.entity.Cidade;
 import br.com.appCadDelta.entity.Cliente;
 import br.com.appCadDelta.util.CidadeModel;
 import br.com.appCadDelta.util.FormataCpf;
+import br.com.appCadDelta.util.SessionDesktop;
 import java.awt.Color;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,7 +28,7 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
     private DefaultComboBoxModel<CidadeModel> comboBoxCidades;
     private Cliente cliente;
     private Cidade cidade;
-    private boolean newCliente = false;
+    private boolean newCliente = true;
     private FormataCpf formataCpf;
 
     /**
@@ -34,17 +37,18 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
     public CadClienteJInternalFrame() {
         listModel = new DefaultListModel();
         ClienteJpaController clienteJpa = new ClienteJpaController();
-        for (Cliente c : clienteJpa.findAll()) {
+        for (Cliente c : clienteJpa.findAllT()) {
             listModel.addElement(c);
         }
         comboBoxCidades = new DefaultComboBoxModel<CidadeModel>();
+        comboBoxCidades.addElement(null);
 
         CidadeModel cidadeModelInit = new CidadeModel();
         Cidade cidade = new Cidade();
         cidade.setNome("");
         cidade.setId(0);
         cidadeModelInit.setCidade(cidade);
-        comboBoxCidades.addElement(cidadeModelInit);
+
         CidadeJpaController cidadeJpa = new CidadeJpaController();
         for (Cidade c : cidadeJpa.findAll()) {
             CidadeModel cidadeModel = new CidadeModel();
@@ -88,6 +92,8 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -136,12 +142,31 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
         });
 
         jButton3.setText("Delete");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Endereço");
 
         jComboBox1.setModel(comboBoxCidades);
 
         jLabel7.setText("Cidade");
+
+        jButton4.setText("add OS");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("pesquisa");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,7 +186,7 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                                         .addComponent(jTextCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,8 +208,10 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
                                 .addGap(52, 52, 52)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,6 +257,10 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton2)
@@ -245,10 +276,10 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel9))
-                                .addContainerGap(43, Short.MAX_VALUE))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 53, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
@@ -282,7 +313,8 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
                 ClienteJpaController clienteJpa = new ClienteJpaController();
                 clienteJpa.create(c);
                 cleanFields();
-                listModel.addElement(c);
+                
+                listModel.insertElementAt(c, 0);
 
                 JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
 
@@ -309,32 +341,48 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
         newCliente = false;
-        cliente = (Cliente) listModel.get(jList1.getSelectedIndex());
 
-        cidade = cliente.getCidadeId();
-        if (cidade == null) {
-            jComboBox1.setSelectedIndex(0);
-        } else {
+        if (jList1.getSelectedValue() != null) {
 
-            for (Integer i = 0; i < comboBoxCidades.getSize(); i++) {
+            if (jList1.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(null, "É preciso selecionar um cliente!");
+            } else {
+                cliente = (Cliente) listModel.get(jList1.getSelectedIndex());
 
-                if (comboBoxCidades.getElementAt(i).getCidade().getId() == cliente.getCidadeId().getId()) {
-                    jComboBox1.setSelectedIndex(i);
+                cidade = cliente.getCidadeId();
+
+                if (cidade == null) {
+                 jComboBox1.setSelectedIndex(0);
+                    System.out.println("ciadade null");
+                } else {
+
+                    for (int i = 0; i < comboBoxCidades.getSize(); i++) {
+                        CidadeModel cidadeModel = comboBoxCidades.getElementAt(i);
+
+                        if (cidadeModel != null) {
+                            if (cidade.equals(cidadeModel.getCidade())) {
+                                jComboBox1.setSelectedItem(cidadeModel);
+                            }
+                        }else{
+                            jComboBox1.setSelectedIndex(0);
+                        }
+                    }
+
+                    System.out.println("ciadade " + cidade.getNome());
                 }
+
+                jTextNome.setText(cliente.getNome());
+                formataCpf.i = 0;
+                jTextCpf.setText(cliente.getCpf());
+                formataCpf.i = 1;
+
+                jTextRg.setText(cliente.getRg());
+                jTextEndereco.setText(cliente.getEndereco());
+                jTextCelular.setText(cliente.getCelular());
+                jTextTelefone.setText(cliente.getTelefone());
+                jTextTelefoneProfissional.setText(cliente.getTelefoneProfissional());
             }
         }
-
-        jTextNome.setText(cliente.getNome());
-        formataCpf.i = 0;
-        jTextCpf.setText(cliente.getCpf());
-        formataCpf.i = 1;
-        System.out.println("cliente nome "+cliente.getNome()+ " mostra cpf  = " + cliente.getCpf());
-        
-        jTextRg.setText(cliente.getRg());
-        jTextEndereco.setText(cliente.getEndereco());
-        jTextCelular.setText(cliente.getCelular());
-        jTextTelefone.setText(cliente.getTelefone());
-        jTextTelefoneProfissional.setText(cliente.getTelefoneProfissional());
     }//GEN-LAST:event_jList1ValueChanged
 
     public void cleanFields() {
@@ -354,10 +402,65 @@ public class CadClienteJInternalFrame extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(null, "Preencha todos os campos para inserir um novo cliente!");
         cleanFields();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        SessionDesktop.setFlagCliente(1);
+        if (jList1.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(null, "É preciso selecionar um cliente para cadastrar uma OS!");
+        } else {
+            Cliente c = (Cliente) listModel.get(jList1.getSelectedIndex());
+            SessionDesktop.setCliente(c);
+            System.out.println("cliente    === " + c.getNome());
+
+            this.dispose();
+            CadOsJInternalFrame cadOs = new CadOsJInternalFrame();
+            cadOs.setVisible(true);
+            Desktop.getDesktopPane().add(cadOs);
+        }
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        String name = JOptionPane.showInputDialog("Digite o nome do cliente: ");
+        ClienteJpaController jpaController = new ClienteJpaController();
+        listModel = new DefaultListModel();
+        for (Cliente c : jpaController.findByName(name)) {
+            listModel.addElement(c);
+        }
+
+        jList1.setModel(listModel);
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+
+        if (cliente != null) {
+
+            if (cliente.getId() != null) {
+                ClienteJpaController osJpa = new ClienteJpaController();
+                osJpa.delete(cliente);
+                listModel.removeElement(cliente);
+                jList1.setModel(listModel);
+                JOptionPane.showMessageDialog(null, "Os removida com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(null, "É>>>>>>>>>>>>>>> preciso selecionar um cliente OS para remove-lo");
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "É preciso selecionar um cliente para remove-lo");
+
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

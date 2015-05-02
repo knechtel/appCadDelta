@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 public class CadUsuarioInternalFrame extends javax.swing.JInternalFrame {
 
     private DefaultListModel<Usuario> listModelUsuario;
-    private boolean newUsuario = false;
+    private boolean newUsuario = true;
     private Usuario usuario;
 
     /**

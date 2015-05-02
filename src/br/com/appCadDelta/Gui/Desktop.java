@@ -4,10 +4,17 @@
  */
 package br.com.appCadDelta.Gui;
 
-
+import br.com.appCadDelta.JPAConttroller.OrdemServicoJpaController;
+import br.com.appCadDelta.entity.Ordemservico;
+import br.com.appCadDelta.util.Util;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
-
 
 /**
  *
@@ -32,7 +39,7 @@ public class Desktop extends javax.swing.JFrame {
 //        } catch (UnsupportedLookAndFeelException ex) {
 //            Logger.getLogger(Desktop.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        
+
         initComponents();
         setSize(1024, 700);
     }
@@ -46,11 +53,17 @@ public class Desktop extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu4 = new javax.swing.JMenu();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuDataSaida = new javax.swing.JMenuItem();
+        jMenuDataEntrada = new javax.swing.JMenuItem();
+        jMenuBuscaPorOs = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -59,10 +72,13 @@ public class Desktop extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
 
+        jMenu4.setText("jMenu4");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jDesktopPane1.setBackground(new java.awt.Color(204, 204, 255));
         jDesktopPane1.setForeground(new java.awt.Color(204, 204, 255));
+        jDesktopPane1.setLayout(null);
 
         jMenu1.setText("File");
 
@@ -81,6 +97,42 @@ public class Desktop extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem2);
+
+        jMenu5.setText("Consulta OS");
+
+        jMenuDataSaida.setText("por data de saida");
+        jMenuDataSaida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuDataSaidaActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuDataSaida);
+
+        jMenuDataEntrada.setText("por data de entrada");
+        jMenuDataEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuDataEntradaActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuDataEntrada);
+
+        jMenuBuscaPorOs.setText("por OS");
+        jMenuBuscaPorOs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuBuscaPorOsActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuBuscaPorOs);
+
+        jMenuItem9.setText("por Cliente");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem9);
+
+        jMenu1.add(jMenu5);
 
         jMenuItem3.setText("Cadastro de usuários");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -122,7 +174,7 @@ public class Desktop extends javax.swing.JFrame {
 
         jMenu2.setText("Edit");
 
-        jMenuItem6.setText("Imprimir OS");
+        jMenuItem6.setText("About");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
@@ -150,7 +202,7 @@ public class Desktop extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        CadOsJInternalFrame cadOs = new CadOsJInternalFrame();
+        CadOsJInternalFrameSwap cadOs = new CadOsJInternalFrameSwap();
         jDesktopPane1.add(cadOs);
         cadOs.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -171,7 +223,13 @@ public class Desktop extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+
+        if (JOptionPane.showConfirmDialog(null, "Você deseja realmente sair do sistema ?", "WARNING",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else {
+        }
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -179,28 +237,132 @@ public class Desktop extends javax.swing.JFrame {
         CadCidadeJInternalFrame cadCidade = new CadCidadeJInternalFrame();
         jDesktopPane1.add(cadCidade);
         cadCidade.setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         // TODO add your handling code here:
-        String str = JOptionPane.showInputDialog(null, "Digite a data da saída da ordem de serviço:");
-        
-        CaixaJInternalFrame caixa = new CaixaJInternalFrame(str);
-        jDesktopPane1.add(caixa);
-        caixa.setVisible(true);
+        String str = null;
+        boolean erro = false;
+        try {
+            str = JOptionPane.showInputDialog(null, "Digite a data da saída da ordem de serviço:");
+            Util.sringToDate(str);
+        } catch (Exception p) {
+            erro = true;
+        }
+        if (!erro) {
+            CaixaJInternalFrame caixa = new CaixaJInternalFrame(str);
+            jDesktopPane1.add(caixa);
+            caixa.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Data inválida");
+        }
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
-    public static JDesktopPane getDesktopPane(){
+    private void jMenuDataSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuDataSaidaActionPerformed
+        // TODO add your handling code here:
+        String str = JOptionPane.showInputDialog(null, "Digite a data de saida da OS");
+        Date date = null;
+        boolean errorDateSaida = false;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            date = formatter.parse(str);
+
+        } catch (ParseException ex) {
+            errorDateSaida = true;
+            Logger.getLogger(Desktop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (!errorDateSaida) {
+
+            OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+            List<Ordemservico> listOrdemServico = osJpa.findAparelhosBydataSaida(date);
+            CadOsJInternalFrame cadOs = new CadOsJInternalFrame(listOrdemServico);
+            jDesktopPane1.add(cadOs);
+            cadOs.setVisible(true);
+
+            System.out.println(listOrdemServico.size());
+        } else {
+            JOptionPane.showMessageDialog(null, "Data Inválida!");
+        }
+        System.out.println("aqui >>" + date);
+    }//GEN-LAST:event_jMenuDataSaidaActionPerformed
+
+    private void jMenuDataEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuDataEntradaActionPerformed
+        // TODO add your handling code here:
+        String str = JOptionPane.showInputDialog(null, "Digite a data de Entrada da OS");
+        Date date = null;
+        boolean errorDateEntrada = false;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            date = formatter.parse(str);
+
+        } catch (ParseException ex) {
+            errorDateEntrada = true;
+            Logger.getLogger(Desktop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (!errorDateEntrada) {
+
+            OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+            List<Ordemservico> listOrdemServico = osJpa.findAparelhosBydataEntrada(date);
+            CadOsJInternalFrame cadOs = new CadOsJInternalFrame(listOrdemServico);
+            jDesktopPane1.add(cadOs);
+            cadOs.setVisible(true);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Data Inválida!");
+        }
+
+
+    }//GEN-LAST:event_jMenuDataEntradaActionPerformed
+
+    private void jMenuBuscaPorOsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuBuscaPorOsActionPerformed
+        // TODO add your handling code here:
+        String str = JOptionPane.showInputDialog(null, "Digite o numero da O.S:");
+        boolean erroParse = false;
+        Integer id = null;
+
+        try {
+
+            id = Integer.parseInt(str);
+        } catch (NumberFormatException ex) {
+            erroParse = true;
+            Logger.getLogger(Desktop.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (!erroParse) {
+
+            CadOsJInternalFrame cadOs = new CadOsJInternalFrame(id);
+            jDesktopPane1.add(cadOs);
+            cadOs.setVisible(true);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "ID Inválida!");
+        }
+
+
+    }//GEN-LAST:event_jMenuBuscaPorOsActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+
+        String str = JOptionPane.showInputDialog(null, "Digite o nome do cliente:");
+
+        CadOsJInternalFrame cadOs = new CadOsJInternalFrame(str);
+        jDesktopPane1.add(cadOs);
+        cadOs.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    public static JDesktopPane getDesktopPane() {
         return jDesktopPane1;
     }
-    
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -240,7 +402,12 @@ public class Desktop extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuBuscaPorOs;
+    private javax.swing.JMenuItem jMenuDataEntrada;
+    private javax.swing.JMenuItem jMenuDataSaida;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
@@ -248,5 +415,6 @@ public class Desktop extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables
 }

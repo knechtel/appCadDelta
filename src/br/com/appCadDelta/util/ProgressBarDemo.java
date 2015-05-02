@@ -77,9 +77,14 @@ public class ProgressBarDemo extends JPanel
 
                     UsuarioJpaController jpaController = new UsuarioJpaController();
 
-
                     listUsuario = jpaController.findByLoginAndSenha(SessionDesktop.getUsuario());
 
+                    if (listUsuario.size() == 0) {
+                        frame.dispose();
+                        JOptionPane.showMessageDialog(null, "Usuário ou senha inválida");
+                        System.exit(0);
+                    }
+                    SessionDesktop.setUsuario(listUsuario.get(0));
                     finalP = 1;
 
                     if (listUsuario.get(0).getPerfil() == 1) {
@@ -88,7 +93,7 @@ public class ProgressBarDemo extends JPanel
                         desktop.setVisible(true);
                         frame.dispose();
 
-                    } else {
+                    } else if (listUsuario.get(0).getPerfil() == 2) {
                         //usuario operador
                         setProgress(100);
 
@@ -96,6 +101,7 @@ public class ProgressBarDemo extends JPanel
                         desktop.setVisible(true);
                         SessionDesktop.setUsuario(listUsuario.get(0));
                         frame.dispose();
+                    } else {
                     }
                 }
             }).start();
@@ -103,7 +109,7 @@ public class ProgressBarDemo extends JPanel
             //Initialize progress property.
             setProgress(0);
             while (progress < 100) {
-                
+
                 if (finalP == 0) {
                     try {
                         Thread.sleep(random.nextInt(2000));
@@ -113,10 +119,8 @@ public class ProgressBarDemo extends JPanel
                     setProgress(100);
                     Thread.interrupted();
 
-
                 }
 
-                
                 progress += random.nextInt(10);
                 setProgress(Math.min(progress, 100));
 

@@ -18,7 +18,7 @@ public class CadCidadeJInternalFrame extends javax.swing.JInternalFrame {
 
     private DefaultListModel<Cidade> listModelCidade;
     private Cidade cidade;
-    private boolean newCidade;
+    private boolean newCidade =true;
 
     /**
      * Creates new form CadCidadesJInternalFrame

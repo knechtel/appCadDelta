@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,6 +48,10 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
+    @Column(name = "contador")
+    private Integer contador;
+    
     @Column(name = "celular")
     private String celular;
     @Column(name = "cpf")
@@ -59,15 +64,40 @@ public class Cliente implements Serializable {
     private String rg;
     @Column(name = "telefone")
     private String telefone;
+    
+    @Column(name = "telefoneResidencial")
+    private String telefoneResidencial;
+    
+    
     @Column(name = "telefoneProfissional")
     private String telefoneProfissional;
     @JoinColumn(name = "cidade_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     private Cidade cidadeId;
 
     public Cliente() {
     }
 
+    public Integer getContador() {
+        return contador;
+    }
+
+    public void setContador(Integer contador) {
+        this.contador = contador;
+    }
+    
+    
+
+    public String getTelefoneResidencial() {
+        return telefoneResidencial;
+    }
+
+    public void setTelefoneResidencial(String telefoneResidencial) {
+        this.telefoneResidencial = telefoneResidencial;
+    }
+
+    
+    
     public Cliente(Integer id) {
         this.id = id;
     }
@@ -166,6 +196,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
+        if(id==null)return nome;
         return  id.toString();
     }
 

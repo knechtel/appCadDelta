@@ -4,16 +4,23 @@
  */
 package br.com.appCadDelta.relatorio;
 
+import br.com.appCadDelta.Gui.Desktop;
 import br.com.appCadDelta.GuiUser.DesktopUser;
+import br.com.appCadDelta.JPAConttroller.AparelhoJpaController;
 import br.com.appCadDelta.JPAConttroller.OrdemServicoJpaController;
+import br.com.appCadDelta.JPAConttroller.PecasJpaController;
+import br.com.appCadDelta.entity.Aparelho;
 import br.com.appCadDelta.entity.Ordemservico;
+import br.com.appCadDelta.entity.Peca;
+import br.com.appCadDelta.util.SessionDesktop;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 
 import java.util.UUID;
 import java.util.logging.Level;
@@ -39,13 +46,31 @@ public class Relatorio {
     }
 
     public void geraRelatorio(Integer id) throws FileNotFoundException {
-        FileInputStream fis = new FileInputStream("D:\\ferramentas\\relatorio\\rel1.jasper");
+
+        File f = new File("/Users/maiquelknechtel/Documents/ireport/rel1.jasper");
+
+        FileInputStream fis = null;
+        if (f.exists()) {
+            fis = new FileInputStream("/Users/maiquelknechtel/Documents/ireport/rel1.jasper");
+        } else {
+            fis = new FileInputStream("c:\\relatorio\\rel1.jasper");
+        }
         BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
         OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
-        List<Ordemservico> listOs = osJpa.findAparelhosByIdOS(id);
+
+        List<Ordemservico> listOs = osJpa.listByContOS(id);
+
+        AparelhoJpaController aparelhoJpaController = new AparelhoJpaController();
+        List<Aparelho> listAparelhoTemp = aparelhoJpaController.nativeFindAparelhosByIdOS(listOs.get(0).getContOs());
+
+        listOs.get(0).setListaAparelho(listAparelhoTemp);
+        if (listOs != null) {
+            System.out.println("list " + listOs.size());
+        } else {
+            System.out.println("null");
+        }
 
         JRBeanCollectionDataSource beanCollectioinDataSource = new JRBeanCollectionDataSource(listOs);
-
 
         JasperReport jasperReport = null;
         try {
@@ -63,40 +88,47 @@ public class Relatorio {
 //        JasperViewer.viewReport(jasperPrint, false);
         //mais nada
         JRViewer jrviewer = new JRViewer(jasperPrint);
-        JInternalFrame jif = new JInternalFrame("Relatório de O.S", true, true, true, true);
+        JInternalFrame jif = new JInternalFrame("Relatório de O.S = "+listOs.get(0).getContOs(), true, true, true, true);
         jif.getContentPane().add(jrviewer);
         jif.setSize(1000, 600);
-        DesktopUser.getDesktopPane().add(jif);
-        jif.setVisible(true);
 
+        if (SessionDesktop.getUsuario().getPerfil() == 1) {
+            Desktop.getDesktopPane().add(jif);
+        } else {
+            DesktopUser.getDesktopPane().add(jif);
+        }
+        jif.setVisible(true);
 
     }
 
     public void start() {
         try {
             // load report location
-            FileInputStream fis = new FileInputStream("D:\\ferramentas\\relatorio\\rel1.jasper");
+
+            FileInputStream fis = new FileInputStream("/Users/maiquelknechtel/Documents/ireport/rel1.jasper");
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fis);
 
+            //EntityManagerFactory emf = Persistence.createEntityManagerFactory("appDeltaCadPU", new HashMap());
+            // EntityManager em = emf.createEntityManager();
+            //Query q = em.createNamedQuery("Ordemservico.findAparelhosByIdOS").setParameter("idOs", 16);
+            //20134
+            OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
 
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("appDeltaCadPU", new HashMap());
-            EntityManager em = emf.createEntityManager();
+            List<Ordemservico> listOs = osJpa.listByContOS(18483);
 
-            Query q = em.createNamedQuery("Ordemservico.findAparelhosByIdOS").setParameter("idOs", 1);
+            AparelhoJpaController aparelhoJpaController = new AparelhoJpaController();
+            List<Aparelho> listAparelhoTemp = aparelhoJpaController.nativeFindAparelhosByIdOS(listOs.get(0).getContOs());
 
+            listOs.get(0).setListaAparelho(listAparelhoTemp);
+            if (listOs != null) {
+                System.out.println("list " + listOs.size());
+            } else {
+                System.out.println("null");
+            }
 
-            List<Ordemservico> listOs = (List<Ordemservico>) q.getResultList();
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            System.out.println("size  = " + listOs.get(0).getListaAparelho().size());
-
-
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             JRBeanCollectionDataSource beanCollectioinDataSource = new JRBeanCollectionDataSource(listOs);
 
-
             //   JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(maps);
-
-
             // compile report
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(bufferedInputStream);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), beanCollectioinDataSource);

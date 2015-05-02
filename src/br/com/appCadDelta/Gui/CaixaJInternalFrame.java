@@ -4,9 +4,16 @@
  */
 package br.com.appCadDelta.Gui;
 
+import br.com.appCadDelta.JPAConttroller.AparelhoJpaController;
 import br.com.appCadDelta.JPAConttroller.OrdemServicoJpaController;
+import br.com.appCadDelta.JPAConttroller.PecasJpaController;
+import br.com.appCadDelta.entity.Aparelho;
 import br.com.appCadDelta.entity.Ordemservico;
+import br.com.appCadDelta.entity.Peca;
+import br.com.appCadDelta.util.LimitadorMoeda;
 import br.com.appCadDelta.util.Util;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,23 +25,26 @@ import javax.swing.DefaultListModel;
  */
 public class CaixaJInternalFrame extends javax.swing.JInternalFrame {
 
-    private DefaultListModel<Ordemservico> listModel;
+    private DefaultListModel<Aparelho> listModel;
     private Ordemservico ordemServico;
+    private Aparelho aparelho;
+
     /**
      * Creates new form CaixaJInternalFrame
      */
     public CaixaJInternalFrame(String data) {
-        List<Ordemservico>listOrdemServico=null;
-        OrdemServicoJpaController jpaOrdemServico = new OrdemServicoJpaController();
+        super("Livro caixa - data " + data);
+        List<Aparelho> listAparelho = null;
+        AparelhoJpaController aparelhoJpa = new AparelhoJpaController();
         try {
-            listOrdemServico = jpaOrdemServico.findByDateEntrega(Util.sringToDate(data)); 
+            listAparelho = aparelhoJpa.findByDateSaida(Util.sringToDate(data));
         } catch (Exception ex) {
             Logger.getLogger(CaixaJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        listModel = new DefaultListModel<Ordemservico>();
-        
-        for(Ordemservico os:listOrdemServico){
-            listModel.addElement(os);
+        listModel = new DefaultListModel<Aparelho>();
+
+        for (Aparelho ap : listAparelho) {
+            listModel.addElement(ap);
         }
         initComponents();
     }
@@ -63,7 +73,6 @@ public class CaixaJInternalFrame extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Livro caixa");
 
         jList1.setModel(listModel);
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -163,11 +172,41 @@ public class CaixaJInternalFrame extends javax.swing.JInternalFrame {
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
-        ordemServico = listModel.get(jList1.getSelectedIndex());
-        
-        jTextNumeroOs.setText(ordemServico.getId().toString());
-        jTextNomeCliente.setText(ordemServico.getClienteId().getNome().toUpperCase());
-        jTextValorOS.setText(ordemServico.getTotalOrcamento().toString());
+        aparelho = listModel.get(jList1.getSelectedIndex());
+
+        jTextNumeroOs.setText(aparelho.getContOs().toString());
+
+        OrdemServicoJpaController osJpa = new OrdemServicoJpaController();
+        ordemServico = osJpa.findByContOS(aparelho.getContOs());
+        jTextNomeCliente.setText(ordemServico.getClienteId().getNome());
+
+        jTextEntreguePor.setText(aparelho.getUsuarioEntregador());
+
+        AparelhoJpaController aparelhoJpaController = new AparelhoJpaController();
+
+        List<Aparelho> listAparelhoTemp = aparelhoJpaController.nativeFindAparelhosByIdOS(aparelho.getContOs());
+
+        DecimalFormat df = new DecimalFormat("$,##0.00");
+
+        OrdemServicoJpaController osJpa1 = new OrdemServicoJpaController();
+        AparelhoJpaController aparelhoJpaCtl = new AparelhoJpaController();
+        List<Aparelho> listAparelho1 = aparelhoJpaCtl.nativeFindAparelhosByIdOS(aparelho.getContOs());
+
+        double valorPecas = 0;
+
+        for (Aparelho ap1 : listAparelho1) {
+            PecasJpaController pecasCtl = new PecasJpaController();
+
+            List<Peca> listPecas = pecasCtl.findByAparelho(ap1.getContador());
+            if (listPecas != null) {
+                for (Peca p : listPecas) {
+                    valorPecas = valorPecas + p.getValor();
+                }
+            }
+        }
+        jTextValorOS.setText(df.format(valorPecas));
+
+
     }//GEN-LAST:event_jList1ValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

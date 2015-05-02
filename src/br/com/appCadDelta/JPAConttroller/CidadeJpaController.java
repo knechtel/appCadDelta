@@ -60,6 +60,7 @@ public class CidadeJpaController implements Serializable {
             em.close();
         }
     }
+    
 
     public static void main(String[] args) {
         Cidade c = new Cidade();

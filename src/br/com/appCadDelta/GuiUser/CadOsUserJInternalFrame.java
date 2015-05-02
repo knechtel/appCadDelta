@@ -69,7 +69,7 @@ public class CadOsUserJInternalFrame extends javax.swing.JInternalFrame {
             listModelOs = new DefaultListModel();
 
             OrdemServicoJpaController jpaOs = new OrdemServicoJpaController();
-            for (Ordemservico os : jpaOs.findAll()) {
+            for (Ordemservico os : jpaOs.findAllOrderByContOs()) {
                 listModelOs.addElement(os);
             }
         }

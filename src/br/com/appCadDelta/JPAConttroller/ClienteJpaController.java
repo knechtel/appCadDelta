@@ -29,8 +29,8 @@ public class ClienteJpaController implements Serializable {
         em.getTransaction().commit();
         em.close();
     }
-    
-    public void edit(Cliente cliente){
+
+    public void edit(Cliente cliente) {
         em.getTransaction().begin();
         em.merge(cliente);
         em.getTransaction().commit();
@@ -45,6 +45,10 @@ public class ClienteJpaController implements Serializable {
         }
     }
 
+    public List<Cliente> findByName(String name) {
+        return em.createQuery("SELECT c FROM Cliente c WHERE c.nome LIKE :nome").setParameter("nome", "%" + name + "%").getResultList();
+    }
+
     public List<Cliente> findAll() {
         try {
             return em.createNamedQuery("Cliente.findAll").getResultList();
@@ -52,11 +56,30 @@ public class ClienteJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public List<Cliente> findAllT() {
+        try {
+            return em.createNativeQuery("select * from cliente  order by id desc",Cliente.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
 
     public static void main(String[] args) {
-        ClienteJpaController cidadeJpa = new ClienteJpaController();
-        Cliente c = cidadeJpa.findById(1);
-       
-        System.out.println("cliente cpf "+c.getCpf()); 
+        ClienteJpaController clienteJpa = new ClienteJpaController();
+
+        System.out.println("tamanho da lista " + clienteJpa.findByName("Maiquel").size());
+    }
+
+    
+    
+    public void delete(Cliente cliente) {
+        em.getTransaction().begin();
+        cliente = em.merge(cliente);
+        em.remove(cliente);
+        em.getTransaction().commit();
+        em.close();
+
     }
 }

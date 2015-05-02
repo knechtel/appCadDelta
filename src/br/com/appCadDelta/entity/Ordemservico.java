@@ -33,14 +33,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "ordemservico", catalog = "test1", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Ordemservico.findAll", query = "SELECT o FROM Ordemservico o"),
+    @NamedQuery(name = "Ordemservico.findAll", query = "SELECT o FROM Ordemservico as o"),
     @NamedQuery(name = "Ordemservico.findById", query = "SELECT o FROM Ordemservico o WHERE o.id = :id"),
     @NamedQuery(name = "Ordemservico.findByDataEntrada", query = "SELECT o FROM Ordemservico o WHERE o.dataEntrada = :dataEntrada"),
     @NamedQuery(name = "Ordemservico.findByDataSaida", query = "SELECT o FROM Ordemservico o WHERE o.dataSaida = :dataSaida"),
     @NamedQuery(name = "Ordemservico.findByObs", query = "SELECT o FROM Ordemservico o WHERE o.obs = :obs"),
     @NamedQuery(name = "Ordemservico.findByPecas", query = "SELECT o FROM Ordemservico o WHERE o.pecas = :pecas"),
     @NamedQuery(name = "Ordemservico.findByTotalOrcamento", query = "SELECT o FROM Ordemservico o WHERE o.totalOrcamento = :totalOrcamento"),
-    @NamedQuery(name = "Ordemservico.findAparelhosByIdOS", query = "SELECT os FROM Ordemservico os JOIN FETCH os.listaAparelho WHERE os.id=:idOs")})
+    @NamedQuery(name = "Ordemservico.findAparelhosByIdOS", query = "SELECT os FROM Ordemservico os  WHERE os.id=:idOs")})
 public class Ordemservico implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,17 +59,26 @@ public class Ordemservico implements Serializable {
     private String obs;
     @Column(name = "pecas")
     private String pecas;
+     @Column(name = "contOs")
+    private Integer contOs;
+   
+
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "totalOrcamento")
     private Double totalOrcamento;
     @JoinColumn(name = "usuarioEntregou_id", referencedColumnName = "id")
-    @ManyToOne
+
+    @ManyToOne(fetch= FetchType.EAGER)
     private Usuario usuarioEntregouid;
+    
     @JoinColumn(name = "cliente_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     private Cliente clienteId;
+    
     @JoinColumn(name = "usuarioRecebeu_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
+    
     private Usuario usuarioRecebeuid;
     @JoinTable(name = "Aparelho_ordemServicos",
     joinColumns = {
@@ -79,8 +88,22 @@ public class Ordemservico implements Serializable {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Aparelho> listaAparelho;
 
+    
+    
+    
+    
     public Ordemservico() {
     }
+
+    public Integer getContOs() {
+        return contOs;
+    }
+
+    public void setContOs(Integer contOs) {
+        this.contOs = contOs;
+    }
+    
+    
 
     public Ordemservico(Integer id) {
         this.id = id;
@@ -180,10 +203,10 @@ public class Ordemservico implements Serializable {
 
     @Override
     public String toString() {
-        if (id != null) {
-            return id.toString();
+        if (contOs != null) {
+            return contOs.toString();
         } else {
-            return "null id";
+            return "null";
         }
     }
 

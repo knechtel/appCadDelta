@@ -7,6 +7,7 @@
     <class>br.com.appCadDelta.entity.Aparelho</class>
     <class>br.com.appCadDelta.entity.Usuario</class>
     <class>br.com.appCadDelta.entity.Ordemservico</class>
+    <class>br.com.appCadDelta.entity.Peca</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/test1?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value=""/>

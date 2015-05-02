@@ -4,4 +4,65 @@
 
 *módulo administrador/usuario busca por data de saida  
 
-*modulo *módulo administrador livro caixa
+*modulo  administrador/usuario livro caixa
+
+*habilitar botoes autorizado ponto
+
+_________________________________________________________________
+
+
+31/12/2014
+adicionar janela com preço e peças utilizadas ok
+
+adicionar janela com as garantias ok
+
+remover combobox cliente ok
+
+01/01/2015
+
+problema no botao do CadOs novo ok
+_______________________________________________________________________
+
+02/01/2015
+
+arrumar cadastro de cidades
+
+arrumar livro caixa ok
+
+
+_________________________________________________________________________
+03/01/2015
+- nao permitir cadastrar os sem data de entrada ok
+
+- campo finalizado deve ser atualizado ok
+
+- filtro por data em livroCaixa ok
+
+- delete clientes
+
+- bugs cadastro de cidades
+
+________________________________________________
+
+Cadastro de cidades 
+
+import de dados
+
+campo sem conserto
+
+relatorio
+
+* verificar campo dataEntrada e dataSaida de aparelho
+
+
+__________________________________
+12/01/2015
+
+ao adicionar o valor das peça mostrar o total na nota ok
+
+delete peças da ordem de serviço *ok
+________________________________________________________
+14/01/2015
+
+um botao para colocar todas as datas de saida 
+

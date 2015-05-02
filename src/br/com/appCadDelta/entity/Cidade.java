@@ -45,6 +45,11 @@ public class Cidade implements Serializable {
     private String nome;
     @Column(name = "uf")
     private String uf;
+    
+    
+    @Column(name = "contChave")
+    private Integer contChave;
+    
     @OneToMany(mappedBy = "cidadeId")
     private List<Cliente> clienteList;
 
@@ -54,6 +59,16 @@ public class Cidade implements Serializable {
     public Cidade(Integer id) {
         this.id = id;
     }
+
+    public Integer getContChave() {
+        return contChave;
+    }
+
+    public void setContChave(Integer contChave) {
+        this.contChave = contChave;
+    }
+    
+    
 
     public Integer getId() {
         return id;
