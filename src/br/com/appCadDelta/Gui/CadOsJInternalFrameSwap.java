@@ -801,7 +801,7 @@ public class CadOsJInternalFrameSwap extends javax.swing.JInternalFrame {
 
                 ClienteJpaController ctlCliente = new ClienteJpaController();
                 ctlCliente.create(umCliente);
-                
+
                 cliente = umCliente;
                 aparelho = new Aparelho();
 
@@ -1263,8 +1263,11 @@ public class CadOsJInternalFrameSwap extends javax.swing.JInternalFrame {
         } else {
             os.getListaAparelho().remove(aparelho);
             listModelAparelho.remove(new Integer(jListAparelho.getSelectedIndex()));
-
             jListAparelho.setModel(listModelAparelho);
+            
+           AparelhoJpaController aparelhoJpa = new AparelhoJpaController();
+           aparelhoJpa.delete(aparelho);
+
         }
 
     }//GEN-LAST:event_jButtonDeleteAparelhoActionPerformed

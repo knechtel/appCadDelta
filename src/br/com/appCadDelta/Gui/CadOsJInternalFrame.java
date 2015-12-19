@@ -1184,8 +1184,13 @@ public class CadOsJInternalFrame extends javax.swing.JInternalFrame {
         } else {
             os.getListaAparelho().remove(aparelho);
             listModelAparelho.remove(new Integer(jListAparelho.getSelectedIndex()));
-
             jListAparelho.setModel(listModelAparelho);
+            AparelhoJpaController jpaAparelho = new AparelhoJpaController();
+            
+            System.out.println("Aparelho = "+aparelho.getId());
+            jpaAparelho.delete(aparelho);
+            
+            
         }
 
     }//GEN-LAST:event_jButtonDeleteAparelhoActionPerformed

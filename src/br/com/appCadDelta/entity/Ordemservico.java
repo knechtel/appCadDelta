@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Ordemservico.findById", query = "SELECT o FROM Ordemservico o WHERE o.id = :id"),
     @NamedQuery(name = "Ordemservico.findByDataEntrada", query = "SELECT o FROM Ordemservico o WHERE o.dataEntrada = :dataEntrada"),
     @NamedQuery(name = "Ordemservico.findByDataSaida", query = "SELECT o FROM Ordemservico o WHERE o.dataSaida = :dataSaida"),
+    @NamedQuery(name = "Ordemservico.findByAnoDataSaida", query = "SELECT o FROM Ordemservico o WHERE o.dataSaida < :dataSaida"),
     @NamedQuery(name = "Ordemservico.findByObs", query = "SELECT o FROM Ordemservico o WHERE o.obs = :obs"),
     @NamedQuery(name = "Ordemservico.findByPecas", query = "SELECT o FROM Ordemservico o WHERE o.pecas = :pecas"),
     @NamedQuery(name = "Ordemservico.findByTotalOrcamento", query = "SELECT o FROM Ordemservico o WHERE o.totalOrcamento = :totalOrcamento"),

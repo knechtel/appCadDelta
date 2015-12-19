@@ -113,6 +113,8 @@ public class OrdemServicoJpaController {
             em.close();
         }
     }
+    
+    
 
     public List<Ordemservico> findByDateEntrada(Date dataSaida) {
 
@@ -209,17 +211,6 @@ public class OrdemServicoJpaController {
     }
 
     public static void main(String[] args) throws Exception {
-        OrdemServicoJpaController osjpa = new OrdemServicoJpaController();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String str = "02/09/2013";
-        Date date = null;
-        try {
-            date = formatter.parse(str);
-
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        System.out.println(osjpa.findAparelhosBydataSaida(date));
+       
     }
 }
